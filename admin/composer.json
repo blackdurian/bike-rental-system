@@ -1,0 +1,5 @@
+{
+    "require": {
+        "devsdmf/datamonkey": "^1.2"
+    }
+}

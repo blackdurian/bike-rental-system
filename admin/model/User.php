@@ -1,5 +1,7 @@
 <?php
 
+namespace admin\model;
+
 class User {
 protected $id;
 protected $username;

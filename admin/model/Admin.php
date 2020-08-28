@@ -1,29 +1,22 @@
 <?php
-require_once "admin/model/User.php";
+namespace admin\model;
 
-class Admin extends User{
+use DataMonkey\Entity\ExportableEntity;
+use DataMonkey\Entity\ExportAbstract;
+
+class Admin extends ExportAbstract implements ExportableEntity{
+        /**
+     * @pk
+     * @db_ref id
+     * @strategy manual 
+     */
     private $id;
-    private $userId;
+
+    /**
+     * @db_ref user_id
+     */
+    private $user;// join table one to one
     
-    /**
-     * Get the value of userId
-     */ 
-    public function getUserId()
-    { 
-        return $this->userId;
-    }
-
-    /**
-     * Set the value of userId
-     *
-     * @return  self
-     */ 
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
 
     /**
      * Get the value of id
@@ -44,5 +37,26 @@ class Admin extends User{
 
         return $this;
     }
+
+    /**
+     * Get the value of user
+     */ 
+    public function getUser()
+    { 
+        return $this->user;
+    }
+
+    /**
+     * Set the value of userId
+     *
+     * @return  self
+     */ 
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
 }
 ?>

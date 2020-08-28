@@ -1,9 +1,9 @@
 <?php
 require_once "admin/model/User.php";
 
-class Customer extends User{
+class Customer{
     private $id;
-    private $userId;
+    private $user; // one to one
 
     /**
      * Get the value of id
@@ -26,21 +26,21 @@ class Customer extends User{
     }
 
     /**
-     * Get the value of userId
+     * Get the value of user
      */ 
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     /**
-     * Set the value of userId
+     * Set the user object
      *
      * @return  self
      */ 
-    public function setUserId($userId)
+    public function setUser(User $user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
