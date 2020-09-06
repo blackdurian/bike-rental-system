@@ -1,8 +1,0 @@
-.buildpath
-.project
-.settings/*
-.idea/*
-vendor/*
-tmp/*
-tests/coverage-clover.xml
-tests/coverage-coveralls.json

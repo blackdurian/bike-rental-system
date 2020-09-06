@@ -8,15 +8,16 @@ class Admin extends ExportAbstract implements ExportableEntity{
         /**
      * @pk
      * @db_ref id
-     * @strategy manual 
+     * @strategy auto
      */
-    private $id;
+    public $id;
 
     /**
      * @db_ref user_id
      */
-    private $user;// join table one to one
-    
+    public $user; // join table one to one
+    public $dateCreated; //DEFAULT NOW() added in mySql
+    public $dateModified; //DEFAULT NOW() auto update in mySql
 
     /**
      * Get the value of id
@@ -58,5 +59,45 @@ class Admin extends ExportAbstract implements ExportableEntity{
         return $this;
     }
 
+
+    /**
+     * Get the value of dateCreated
+     */ 
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * Set the value of dateCreated
+     *
+     * @return  self
+     */ 
+    public function setDateCreated($dateCreated)
+    {
+        $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of dateModified
+     */ 
+    public function getDateModified()
+    {
+        return $this->dateModified;
+    }
+
+    /**
+     * Set the value of dateModified
+     *
+     * @return  self
+     */ 
+    public function setDateModified($dateModified)
+    {
+        $this->dateModified = $dateModified;
+
+        return $this;
+    }
 }
 ?>

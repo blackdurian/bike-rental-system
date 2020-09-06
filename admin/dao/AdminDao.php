@@ -18,7 +18,6 @@ class AdminDao {
         $user = $admin->getUser(); // TODO validation : new user or existing user
         $user->setId(UUID::v4());
         $admin->setId(UUID::v4())->setUser($user);
-  
         $query = "INSERT INTO br_user (id, username, password, role, email, dob, profile_photo) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $paramType = "ssssssb";
         $paramValue = array(
@@ -72,7 +71,6 @@ class AdminDao {
         $paramValue = array(
             $id
         );
-        
         $result = $this->db_handle->runQuery($query, $paramType, $paramValue);
         return $result;
     }
