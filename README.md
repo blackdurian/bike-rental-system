@@ -9,7 +9,7 @@ Coding style
 - lower_snake_case for table name and entity
 
 ID generator
-- UUID Version 5
+- UUID Version 4
 
 Password encoder 
 
