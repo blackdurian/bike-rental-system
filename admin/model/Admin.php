@@ -1,20 +1,9 @@
 <?php
 namespace admin\model;
 
-use DataMonkey\Entity\ExportableEntity;
-use DataMonkey\Entity\ExportAbstract;
+class Admin {
 
-class Admin extends ExportAbstract implements ExportableEntity{
-        /**
-     * @pk
-     * @db_ref id
-     * @strategy auto
-     */
     public $id;
-
-    /**
-     * @db_ref user_id
-     */
     public $user; // join table one to one
     public $dateCreated; //DEFAULT NOW() added in mySql
     public $dateModified; //DEFAULT NOW() auto update in mySql
