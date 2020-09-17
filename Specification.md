@@ -13,7 +13,7 @@
 <dd>- Admin can register on the website and then login. </dd>
 <dd>- Admin can add, update and delete vendors information.   </dd>
 <dd>- Admin can view and delete user. </dd>
-<dd>- Admin can add and delete places. </dd>
+<dd>- Admin can add and delete station. </dd>
 <dd>- Admin can add and delete category. </dd>
 <dd>- Admin can view bookings, user and feedbacks given by users. </dd>
 

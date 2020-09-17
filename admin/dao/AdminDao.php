@@ -64,13 +64,7 @@ class AdminDao {
         return $result;
     }
 
-    function findAll() {
-        $query = "SELECT * FROM admin";
-        $result = $this->db_handle->runBaseQuery($query);
- 
-        
-        return $result;
-    }
+  
     function findOneFetchArray($id) {
         $query = "SELECT * FROM admin WHERE id = ?";
         $paramType = "s";
@@ -78,11 +72,12 @@ class AdminDao {
             $id
         );
         $result = $this->db_handle->runQuery($query, $paramType, $paramValue);
+        $admin = new Admin();
+        
         return $result;
     }
 
     function update(Admin $admin) { // TODO: Change user mapping 
-
         $query = "UPDATE br_user SET username = ?, password = ?, role = ?, email = ?, dob = ?, profile_photo = ? WHERE id = ?";
         $paramType = "sssssbs";
         $paramValue = array(
