@@ -1,5 +1,5 @@
 <?php
-namespace admin\util;
+//namespace admin\util;
 
 class DatabaseLoader {
     private static $instance = null;

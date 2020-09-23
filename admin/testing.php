@@ -18,7 +18,11 @@
     If the inputs are correct, the data shall be passed to registered.php. On the page, display “Thank you for registering” if  age is above 18. Otherwise display “Sorry, you can’t use our website’. 
     
     **HINT: You are required to use library functions to calculate age of the user based on the input and current date of  the system(computer). */
-    
-
+  //  require_once '../core/util/UUID.php';
+/* require_once 'util/Autoloader.php';
+   // echo   UUID::v4();
+  
+   $b = new BikeDao();
+   $b->printx(); */
 ?>
  

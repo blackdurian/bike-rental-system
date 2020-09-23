@@ -1,20 +1,48 @@
 <?php
+//namespace admin\dao;
+
+//require_once 'Autoloader.php';
 require_once "core/database/DatabaseLoader.php";
 require_once "core/util/UUID.php";
 
-use admin\util\DatabaseLoader;
-use admin\model\Admin;
+
+//use admin\util\DatabaseLoader;
+//use admin\model\Admin;
 
 class AdminDao {
 
     private $db_handle;
-  
 
     function __construct() {
         $this->db_handle = DatabaseLoader::getInstance();
     }
+
+    function add($id, $userId) {   
+
+        $query = "INSERT INTO admin (id, user_id) VALUES (?, ?)";
+        $paramType = "ss";
+        $paramValue = array(
+            $id, 
+            $userId
+        );       
+        $this->db_handle->insert($query, $paramType, $paramValue); 
+    }
+
+    function delete($id) { 
+        $query = "DELETE FROM admin WHERE id = ?";
+        $paramType = "s";
+        $paramValue = array(
+            $id
+        );
+        $this->db_handle->update($query, $paramType, $paramValue);
+    }
     
-    function add(Admin $admin) {  //Todo validation : user not null 
+    function findAll() {
+        $query = "SELECT * FROM admin";
+        $result = $this->db_handle->runBaseQuery($query);
+        return $result;
+    }
+ /*   function add(Admin $admin) {  //Todo validation : user not null 
         $user = $admin->getUser(); // TODO validation : new user or existing user
         $user->setId(UUID::v4());
         $admin->setId(UUID::v4())->setUser($user);
@@ -40,7 +68,11 @@ class AdminDao {
         );       
         $this->db_handle->insert($query, $paramType, $paramValue); 
     }
+*/
 
+
+
+    /*
     function delete(Admin $admin) { 
         $query = "DELETE FROM admin WHERE id = ?";
         $paramType = "s";
@@ -56,8 +88,7 @@ class AdminDao {
         );
         $this->db_handle->update($query, $paramType, $paramValue);
     }
-    
-
+  
     function findAllFetchArray() {
         $query = "SELECT * FROM admin";
         $result = $this->db_handle->runBaseQuery($query);
@@ -101,6 +132,6 @@ class AdminDao {
     }
 
     
-
+*/
 }
 ?>
