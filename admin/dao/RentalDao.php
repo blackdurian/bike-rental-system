@@ -12,23 +12,32 @@
          $this->db_handle = DatabaseLoader::getInstance();
      }
  
-     function add($id, $username, $password, $role, $email, $dob, $profile_photo) {   
-         $query = "INSERT INTO br_user (id, username, password, role, email, dob, profile_photo) VALUES (?, ?, ?, ?, ?, ?, ?)";
-         $paramType = "ssssssb";
+     function add($id, $customer_id, $bike_id, $check_in_time, 
+                    $check_out_time, $check_in_station, $check_out_station, 
+                    $total_price, $is_complete, $feedback_id) {   
+         $query = "INSERT INTO rental (id, customer_id, bike_id, check_in_time, 
+                                        check_out_time, check_in_station, check_out_station, 
+                                        total_price, is_complete, feedback_id) VALUES (?, ?, ?, ?,
+                                                                                         ?, ?, ?,
+                                                                                         ?, ?, ?)";
+         $paramType = "sssssssdis";
          $paramValue = array(
-             $id,
-             $username, 
-             $password, 
-             $role, 
-             $email,
-             $dob,             
-             $profile_photo
+            $id, 
+            $customer_id, 
+            $bike_id, 
+            $check_in_time, 
+            $check_out_time, 
+            $check_in_station, 
+            $check_out_station, 
+            $total_price, 
+            $is_complete, 
+            $feedback_id
          );       
          $this->db_handle->insert($query, $paramType, $paramValue); 
      }
  
      function delete($id) { 
-         $query = "DELETE FROM br_user WHERE id = ?";
+         $query = "DELETE FROM rental WHERE id = ?";
          $paramType = "s";
          $paramValue = array(
              $id
@@ -37,14 +46,14 @@
      }
  
      function findAll() {
-         $query = "SELECT * FROM br_user";
+         $query = "SELECT * FROM rental";
          $result = $this->db_handle->runBaseQuery($query);
          return $result;
      }
  
        
      function findOne($id) {
-         $query = "SELECT * FROM br_user WHERE id = ?";
+         $query = "SELECT * FROM rental WHERE id = ?";
          $paramType = "s";
          $paramValue = array(
              $id
@@ -53,17 +62,18 @@
          return $result;
      }
  
-     function update($id, $username, $password, $role, $email, $dob, $profile_photo) { // TODO: Change user mapping 
-         $query = "UPDATE br_user SET username = ?, password = ?, role = ?, email = ?, dob = ?, profile_photo = ? WHERE id = ?";
-         $paramType = "sssssbs";
+     function update($id, $customer_id, $bike_id, $check_in_time, 
+                        $check_out_time, $check_in_station, $check_out_station, 
+                        $total_price, $is_complete, $feedback_id) { // TODO: Change user mapping 
+         $query = "UPDATE rental SET customer_id = ?, bike_id = ?, check_in_time = ?, 
+                                        check_out_time = ?, check_in_station = ?, check_out_station = ?, 
+                                        total_price = ?, is_complete = ?, feedback_id = ? WHERE id = ?";
+         $paramType = "ssssssdiss";
          $paramValue = array(
-             $username, 
-             $password, 
-             $role, 
-             $email,
-             $dob,             
-             $profile_photo,
-             $id
+            $customer_id, $bike_id, $check_in_time, 
+            $check_out_time, $check_in_station, $check_out_station, 
+            $total_price, $is_complete, $feedback_id,
+            $id
          );
          $this->db_handle->update($query, $paramType, $paramValue);
      }

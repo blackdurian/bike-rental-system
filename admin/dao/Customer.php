@@ -12,23 +12,18 @@
          $this->db_handle = DatabaseLoader::getInstance();
      }
  
-     function add($id, $username, $password, $role, $email, $dob, $profile_photo) {   
-         $query = "INSERT INTO br_user (id, username, password, role, email, dob, profile_photo) VALUES (?, ?, ?, ?, ?, ?, ?)";
-         $paramType = "ssssssb";
+     function add($id, $user_id) {   
+         $query = "INSERT INTO customer (id, user_id) VALUES (?, ?)";
+         $paramType = "ss";
          $paramValue = array(
-             $id,
-             $username, 
-             $password, 
-             $role, 
-             $email,
-             $dob,             
-             $profile_photo
+            $id, 
+            $user_id
          );       
          $this->db_handle->insert($query, $paramType, $paramValue); 
      }
  
      function delete($id) { 
-         $query = "DELETE FROM br_user WHERE id = ?";
+         $query = "DELETE FROM customer WHERE id = ?";
          $paramType = "s";
          $paramValue = array(
              $id
@@ -37,14 +32,14 @@
      }
  
      function findAll() {
-         $query = "SELECT * FROM br_user";
+         $query = "SELECT * FROM customer";
          $result = $this->db_handle->runBaseQuery($query);
          return $result;
      }
  
        
      function findOne($id) {
-         $query = "SELECT * FROM br_user WHERE id = ?";
+         $query = "SELECT * FROM customer WHERE id = ?";
          $paramType = "s";
          $paramValue = array(
              $id
@@ -53,17 +48,12 @@
          return $result;
      }
  
-     function update($id, $username, $password, $role, $email, $dob, $profile_photo) { // TODO: Change user mapping 
-         $query = "UPDATE br_user SET username = ?, password = ?, role = ?, email = ?, dob = ?, profile_photo = ? WHERE id = ?";
+     function update($id, $user_id) { // TODO: Change user mapping 
+         $query = "UPDATE customer SET user_id = ? WHERE id = ?";
          $paramType = "sssssbs";
          $paramValue = array(
-             $username, 
-             $password, 
-             $role, 
-             $email,
-             $dob,             
-             $profile_photo,
-             $id
+            $user_id,
+            $id
          );
          $this->db_handle->update($query, $paramType, $paramValue);
      }

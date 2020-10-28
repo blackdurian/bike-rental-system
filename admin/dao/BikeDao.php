@@ -12,23 +12,24 @@
          $this->db_handle = DatabaseLoader::getInstance();
      }
  
-     function add($id, $username, $password, $role, $email, $dob, $profile_photo) {   
-         $query = "INSERT INTO br_user (id, username, password, role, email, dob, profile_photo) VALUES (?, ?, ?, ?, ?, ?, ?)";
-         $paramType = "ssssssb";
+     function add($id, $vendor_id, $photo, $category, $current_station, $is_return, $unit_price, $description) {   
+         $query = "INSERT INTO bike (id, vendor_id, photo, category, current_station, is_return, unit_price, description) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+         $paramType = "ssbssids";
          $paramValue = array(
-             $id,
-             $username, 
-             $password, 
-             $role, 
-             $email,
-             $dob,             
-             $profile_photo
+            $id, 
+            $vendor_id, 
+            $photo, 
+            $category, 
+            $current_station, 
+            $is_return, 
+            $unit_price, 
+            $description
          );       
          $this->db_handle->insert($query, $paramType, $paramValue); 
      }
  
      function delete($id) { 
-         $query = "DELETE FROM br_user WHERE id = ?";
+         $query = "DELETE FROM bike WHERE id = ?";
          $paramType = "s";
          $paramValue = array(
              $id
@@ -37,14 +38,14 @@
      }
  
      function findAll() {
-         $query = "SELECT * FROM br_user";
+         $query = "SELECT * FROM bike";
          $result = $this->db_handle->runBaseQuery($query);
          return $result;
      }
  
        
      function findOne($id) {
-         $query = "SELECT * FROM br_user WHERE id = ?";
+         $query = "SELECT * FROM bike WHERE id = ?";
          $paramType = "s";
          $paramValue = array(
              $id
@@ -53,17 +54,18 @@
          return $result;
      }
  
-     function update($id, $username, $password, $role, $email, $dob, $profile_photo) { // TODO: Change user mapping 
-         $query = "UPDATE br_user SET username = ?, password = ?, role = ?, email = ?, dob = ?, profile_photo = ? WHERE id = ?";
-         $paramType = "sssssbs";
+     function update($id, $vendor_id, $photo, $category, $current_station, $is_return, $unit_price, $description) { // TODO: Change user mapping 
+         $query = "UPDATE bike SET vendor_id, photo, category, current_station, is_return, unit_price, description WHERE id = ?";
+         $paramType = "sbssidss";
          $paramValue = array(
-             $username, 
-             $password, 
-             $role, 
-             $email,
-             $dob,             
-             $profile_photo,
-             $id
+            $vendor_id, 
+            $photo, 
+            $category, 
+            $current_station, 
+            $is_return, 
+            $unit_price, 
+            $description,
+            $id
          );
          $this->db_handle->update($query, $paramType, $paramValue);
      }

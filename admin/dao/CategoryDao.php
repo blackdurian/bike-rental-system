@@ -12,23 +12,19 @@
          $this->db_handle = DatabaseLoader::getInstance();
      }
  
-     function add($id, $username, $password, $role, $email, $dob, $profile_photo) {   
-         $query = "INSERT INTO br_user (id, username, password, role, email, dob, profile_photo) VALUES (?, ?, ?, ?, ?, ?, ?)";
-         $paramType = "ssssssb";
+     function add($id, $name, $description) {   
+         $query = "INSERT INTO category (id, name, description) VALUES (?, ?, ?)";
+         $paramType = "sss";
          $paramValue = array(
-             $id,
-             $username, 
-             $password, 
-             $role, 
-             $email,
-             $dob,             
-             $profile_photo
+            $id, 
+            $name, 
+            $description
          );       
          $this->db_handle->insert($query, $paramType, $paramValue); 
      }
  
      function delete($id) { 
-         $query = "DELETE FROM br_user WHERE id = ?";
+         $query = "DELETE FROM category WHERE id = ?";
          $paramType = "s";
          $paramValue = array(
              $id
@@ -37,14 +33,14 @@
      }
  
      function findAll() {
-         $query = "SELECT * FROM br_user";
+         $query = "SELECT * FROM category";
          $result = $this->db_handle->runBaseQuery($query);
          return $result;
      }
  
        
      function findOne($id) {
-         $query = "SELECT * FROM br_user WHERE id = ?";
+         $query = "SELECT * FROM category WHERE id = ?";
          $paramType = "s";
          $paramValue = array(
              $id
@@ -53,17 +49,13 @@
          return $result;
      }
  
-     function update($id, $username, $password, $role, $email, $dob, $profile_photo) { // TODO: Change user mapping 
-         $query = "UPDATE br_user SET username = ?, password = ?, role = ?, email = ?, dob = ?, profile_photo = ? WHERE id = ?";
-         $paramType = "sssssbs";
+     function update($id, $name, $description) { // TODO: Change user mapping 
+         $query = "UPDATE category SET name = ?, description = ? WHERE id = ?";
+         $paramType = "sss";
          $paramValue = array(
-             $username, 
-             $password, 
-             $role, 
-             $email,
-             $dob,             
-             $profile_photo,
-             $id
+            $name, 
+            $description,
+            $id
          );
          $this->db_handle->update($query, $paramType, $paramValue);
      }

@@ -42,6 +42,18 @@ class AdminDao {
         $result = $this->db_handle->runBaseQuery($query);
         return $result;
     }
+
+ 
+    function update($id, $userId) { // TODO: Change user mapping 
+        $query = "UPDATE admin SET user_id = ? WHERE id = ?";
+        $paramType = "ss";
+        $paramValue = array(
+            $userId,
+            $id
+        );
+        $this->db_handle->update($query, $paramType, $paramValue);
+    }
+
  /*   function add(Admin $admin) {  //Todo validation : user not null 
         $user = $admin->getUser(); // TODO validation : new user or existing user
         $user->setId(UUID::v4());

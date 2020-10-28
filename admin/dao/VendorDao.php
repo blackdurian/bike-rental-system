@@ -13,7 +13,7 @@
      }
  
      function add($id, $username, $password, $role, $email, $dob, $profile_photo) {   
-         $query = "INSERT INTO br_user (id, username, password, role, email, dob, profile_photo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+         $query = "INSERT INTO vendor (id, username, password, role, email, dob, profile_photo) VALUES (?, ?, ?, ?, ?, ?, ?)";
          $paramType = "ssssssb";
          $paramValue = array(
              $id,
@@ -28,7 +28,7 @@
      }
  
      function delete($id) { 
-         $query = "DELETE FROM br_user WHERE id = ?";
+         $query = "DELETE FROM vendor WHERE id = ?";
          $paramType = "s";
          $paramValue = array(
              $id
@@ -37,14 +37,14 @@
      }
  
      function findAll() {
-         $query = "SELECT * FROM br_user";
+         $query = "SELECT * FROM vendor";
          $result = $this->db_handle->runBaseQuery($query);
          return $result;
      }
  
        
      function findOne($id) {
-         $query = "SELECT * FROM br_user WHERE id = ?";
+         $query = "SELECT * FROM vendor WHERE id = ?";
          $paramType = "s";
          $paramValue = array(
              $id
@@ -54,7 +54,7 @@
      }
  
      function update($id, $username, $password, $role, $email, $dob, $profile_photo) { // TODO: Change user mapping 
-         $query = "UPDATE br_user SET username = ?, password = ?, role = ?, email = ?, dob = ?, profile_photo = ? WHERE id = ?";
+         $query = "UPDATE vendor SET username = ?, password = ?, role = ?, email = ?, dob = ?, profile_photo = ? WHERE id = ?";
          $paramType = "sssssbs";
          $paramValue = array(
              $username, 
