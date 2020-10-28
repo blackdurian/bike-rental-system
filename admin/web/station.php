@@ -5,5 +5,5 @@
     $navbar = 'partials/navbar.php';
     $footer = 'partials/footer.php';
     $childView = 'views/_station.php';
-    include('layout.php');
+    include('partials/layout.php');
 ?>

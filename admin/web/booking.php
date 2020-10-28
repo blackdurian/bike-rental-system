@@ -75,5 +75,5 @@
             break;
     }
 
-    include('layout.php');
+    include('partials/layout.php');
 ?>
