@@ -86,7 +86,8 @@
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
   <!-- Custom js -->
-  <script src="assets/js/custom.js"></script>
+   
+  <script src="<?php echo $customJs; ?>"></script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -262,9 +263,17 @@
     $(document).ready(function() {
       // Javascript method's body can be found in assets/js/demos.js
       md.initDashboardPageCharts();
-
+      var url = window.location.pathname;
+      $(".nav-item").each(function(){
+        if ( $(this).children( ".nav-link").attr('href') === url.substring(url.lastIndexOf('/')+1)) 
+        {
+          $(this).addClass("active");
+        }
+      });
     });
   </script>
+
+  
 </body>
 
 </html>

@@ -1,58 +1,41 @@
 <div class="sidebar-wrapper">
   <ul class="nav">
-    <li class="nav-item active  ">
-      <a class="nav-link" href="./dashboard.html">
+    <li class="nav-item">
+      <a class="nav-link" href="index.php">
         <i class="material-icons">dashboard</i>
         <p>Dashboard</p>
       </a>
     </li>
     <li class="nav-item ">
-      <a class="nav-link" href="./user.html">
+      <a class="nav-link" href="rental.php">
         <i class="material-icons">person</i>
-        <p>User Profile</p>
+        <p>Rental Order</p>
       </a>
     </li>
     <li class="nav-item ">
-      <a class="nav-link" href="./tables.html">
+      <a class="nav-link" href="vendor.php">
         <i class="material-icons">content_paste</i>
-        <p>Table List</p>
+        <p>Vendor</p>
       </a>
     </li>
     <li class="nav-item ">
-      <a class="nav-link" href="./typography.html">
+      <a class="nav-link" href="customer.php">
         <i class="material-icons">library_books</i>
-        <p>Typography</p>
+        <p>Customer</p>
       </a>
     </li>
     <li class="nav-item ">
-      <a class="nav-link" href="./icons.html">
+      <a class="nav-link" href="category.php">
         <i class="material-icons">bubble_chart</i>
-        <p>Icons</p>
+        <p>Category</p>
       </a>
     </li>
     <li class="nav-item ">
-      <a class="nav-link" href="./map.html">
+      <a class="nav-link" href="station.php">
         <i class="material-icons">location_ons</i>
-        <p>Maps</p>
+        <p>Station</p>
       </a>
     </li>
-    <li class="nav-item ">
-      <a class="nav-link" href="./notifications.html">
-        <i class="material-icons">notifications</i>
-        <p>Notifications</p>
-      </a>
-    </li>
-    <li class="nav-item ">
-      <a class="nav-link" href="./rtl.html">
-        <i class="material-icons">language</i>
-        <p>RTL Support</p>
-      </a>
-    </li>
-    <li class="nav-item active-pro ">
-      <a class="nav-link" href="./upgrade.html">
-        <i class="material-icons">unarchive</i>
-        <p>Upgrade to PRO</p>
-      </a>
-    </li>
+
   </ul>
 </div>

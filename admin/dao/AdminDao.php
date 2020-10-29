@@ -2,8 +2,8 @@
 //namespace admin\dao;
 
 //require_once 'Autoloader.php';
-require_once "core/database/DatabaseLoader.php";
-require_once "core/util/UUID.php";
+require_once "../core/database/DatabaseLoader.php";
+ 
 
 
 //use admin\util\DatabaseLoader;

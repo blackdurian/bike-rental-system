@@ -5,5 +5,6 @@
     $navbar = 'partials/navbar.php';
     $footer = 'partials/footer.php';
     $childView = 'views/_index.php';
+    $customJs = 'assets/js/custom.js';
     include('partials/layout.php');
 ?>

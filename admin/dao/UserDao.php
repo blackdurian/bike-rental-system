@@ -1,6 +1,5 @@
 <?php
-require_once "core/database/DatabaseLoader.php";
-require_once "core/util/UUID.php";
+require_once "../util/DatabaseLoader.php";
 
 class UserDao {
 
@@ -65,6 +64,16 @@ class UserDao {
             $id
         );
         $this->db_handle->update($query, $paramType, $paramValue);
+    }
+
+    function findByUsername($username) {
+        $query = "SELECT * FROM br_user WHERE username = ?";
+        $paramType = "s";
+        $paramValue = array(
+            $username
+        );
+        $result = $this->db_handle->runQuery($query, $paramType, $paramValue);    
+        return $result;
     }
 }
 
