@@ -203,7 +203,7 @@ if ($isLoggedIn) {
 
                     $.ajax({
                         type: "POST",
-                        url: "user.php",
+                        url: "auth.php",
                         data: {
                             login: 1,
                             username: username,

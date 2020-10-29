@@ -1,7 +1,6 @@
 <?php
  
- require_once "core/database/DatabaseLoader.php";
- require_once "core/util/UUID.php";
+ require_once "../util/DatabaseLoader.php";
  
  class CustomerDao {
  

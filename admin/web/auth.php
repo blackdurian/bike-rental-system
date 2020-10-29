@@ -30,3 +30,22 @@ if (isset($_POST["login"])) {
     $myJSON = json_encode($respond);
     echo $myJSON;
 }
+
+if (isset($_POST["logout"])) {
+
+ 
+//Clear Session
+$_SESSION["id"] = "";
+$_SESSION["username"] = "";
+$_SESSION["role"] = "";
+$_SESSION["email"] = "";
+session_destroy();
+
+// todo clear cookies
+/*if (isset($_COOKIE["user_login"])) {
+    setcookie("user_login", "");
+}
+*/
+
+}
+

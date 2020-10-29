@@ -4,6 +4,6 @@
     $sidebar = 'partials/sidebar.php';
     $navbar = 'partials/navbar.php';
     $footer = 'partials/footer.php';
-    $childView = 'views/_vendor.php';
+    $childView = 'views/_rental_list.php';
     include('partials/layout.php');
 ?>
