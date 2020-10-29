@@ -26,5 +26,12 @@
    $b->printx(); */
 
    
+
+
+   require_once '../core/util/UUID.php';
+   require_once "dao/UserDao.php";
+$dao = new UserDao();
+$dao->add(UUID::v4(),"username", password_hash("asdasd", PASSWORD_DEFAULT),"customer","asd@mail.com","",""); 
+
 ?>
  

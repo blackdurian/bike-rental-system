@@ -19,26 +19,7 @@ CREATE TABLE br_user (  /*	'user' table name conflits in myphp admin , use br_us
     date_modified TIMESTAMP DEFAULT NOW() ON UPDATE NOW()
 );
 
-CREATE TABLE vendor(
-    id VARCHAR(255) PRIMARY KEY NOT NULL,
-    user_id VARCHAR(255),
-    date_created TIMESTAMP DEFAULT NOW(),
-    date_modified TIMESTAMP DEFAULT NOW() ON UPDATE NOW()
-); 
-
-CREATE TABLE customer(
-    id VARCHAR(255) PRIMARY KEY NOT NULL,
-    user_id VARCHAR(255),
-    date_created TIMESTAMP DEFAULT NOW(),
-    date_modified TIMESTAMP DEFAULT NOW() ON UPDATE NOW()
-); 
-
-CREATE TABLE admin(
-    id VARCHAR(255) PRIMARY KEY NOT NULL,
-    user_id VARCHAR(255),
-    date_created TIMESTAMP DEFAULT NOW(),
-    date_modified TIMESTAMP DEFAULT NOW() ON UPDATE NOW()
-); 
+ 
 
 CREATE TABLE bike(
     id VARCHAR(255) PRIMARY KEY NOT NULL,
@@ -64,6 +45,7 @@ CREATE TABLE category(
 CREATE TABLE rental(
     id VARCHAR(255) PRIMARY KEY NOT NULL,
     customer_id VARCHAR(255),
+    vendor_id VARCHAR(255),
     bike_id VARCHAR(255),
     check_in_time DATETIME,
     check_out_time DATETIME,
