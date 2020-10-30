@@ -48,6 +48,8 @@
          return $result;
      }
  
+
+     
      function update($id, $rating, $description) { // TODO: Change user mapping 
          $query = "UPDATE feedback SET rating = ?, description = ? WHERE id = ?";
          $paramType = "sss";

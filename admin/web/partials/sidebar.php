@@ -36,6 +36,11 @@
         <p>Station</p>
       </a>
     </li>
-
+    <li class="nav-item ">
+      <a class="nav-link" href="bike.php">
+        <i class="material-icons">bubble_chart</i>
+        <p>Bike</p>
+      </a>
+    </li>
   </ul>
 </div>
