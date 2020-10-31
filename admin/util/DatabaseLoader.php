@@ -29,6 +29,7 @@ class DatabaseLoader {
     
     public function runBaseQuery($query) {
         $result = $this->conn->query($query);   
+        $resultset = array();
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 $resultset[] = $row;
@@ -43,7 +44,7 @@ class DatabaseLoader {
         $this->bindQueryParams($sql, $param_type, $param_value_array);
         $sql->execute();
         $result = $sql->get_result();
-        
+        $resultset = array();
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 $resultset[] = $row;
@@ -55,13 +56,12 @@ class DatabaseLoader {
         }
     }
 
-    public function runQueryFetchObject($query, $param_type, $param_value_array) {
-        $classname = "Admin";
+    public function runQueryFetchObject($query, $param_type, $param_value_array) { 
         $sql = $this->conn->prepare($query);
         $this->bindQueryParams($sql, $param_type, $param_value_array);
         $sql->execute();
         $result = $sql->get_result();
-        
+        $resultset = array();
         if ($result->num_rows > 0) {
             while($row = $result->fetch_object()) {
                 $resultset[] =  $row;

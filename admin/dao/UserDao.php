@@ -22,7 +22,8 @@ class UserDao {
             $dob,             
             $profile_photo
         );       
-        $this->db_handle->insert($query, $paramType, $paramValue); 
+        $insert_id =$this->db_handle->insert($query, $paramType, $paramValue); 
+         return $insert_id;
     }
 
     function delete($id) { 

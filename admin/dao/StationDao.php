@@ -17,7 +17,8 @@
          $paramValue = array(
             $id, $name, $address
          );       
-         $this->db_handle->insert($query, $paramType, $paramValue); 
+         $insert_id =$this->db_handle->insert($query, $paramType, $paramValue); 
+         return $insert_id;
      }
  
      function delete($id) { 
@@ -30,7 +31,7 @@
      }
  
      function findAll() {
-         $query = "SELECT * FROM station";
+         $query = "SELECT * FROM station ORDER BY name;";
          $result = $this->db_handle->runBaseQuery($query);
          return $result;
      }
