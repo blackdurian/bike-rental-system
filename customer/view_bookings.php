@@ -1,9 +1,9 @@
-<!-- This webpage is to view all the available bikes, the user should be able to book whichever one they want -->
+<!-- This webpage is to VIEW all the available bookings, the user should be able to UPDATE, DELETE as well -->
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Book a Bike</title>
+	<title>View All Bookings</title>
 </head>
 
 <style>
@@ -16,12 +16,12 @@
 <body>
 <h1>BOOK A BIKE</h1>
 
-
+<div id="sqltable">
 <?php
 
 include("conn.php");
 
-$result = mysqli_query($db,"SELECT * FROM bike");
+$result = mysqli_query($db,"SELECT * FROM rental");
 ?>
 
 
@@ -29,12 +29,9 @@ $result = mysqli_query($db,"SELECT * FROM bike");
 	<table width="90%"> 
 		<tr> 
 			<td>ID</td>
-			<td>Vendor ID</td>
-			<td>Photo</td> 
-			<td>Category</td>
-			<td>Unit Price</td>
-			<td>Description</td>
-			<td>Book</td> 
+			<td>Bike ID</td> 
+			<td>Delete</td> 
+			<td>Edit</td> 
 		</tr> 
 
 
@@ -42,44 +39,39 @@ $result = mysqli_query($db,"SELECT * FROM bike");
 		<?php
 		while($row = mysqli_fetch_array($result)) 
 		{ 
-			echo "<tbody>";
 			echo "<tr>";
+				echo "<tbody>";
 				echo "<td>"; 
 				echo $row['id'];
 				echo "</td>";
 
 				echo "<td>";
-				echo $row['vendor_id'];
-				echo "</td>";
-
-				echo "<td>"; 
-				echo '<img src="data:image/jpeg;base64,'.base64_encode( $row['photo'] ).'"/>'; 
-				echo "</td>";
-
-				echo "<td>"; 
-				echo $row['category']; 
-				echo "</td>";
-
-				echo "<td>"; 
-				echo $row['unit_price']; 
-				echo "</td>";
-
-				echo "<td>"; 
-				echo $row['description']; 
+				echo $row['bike_id'];
 				echo "</td>";
 
 				echo "<td>";
 				echo '
-				
+				<form>
 						<div class="msg"></div>
-						<input class="valRow" value="'.$row['id'].'" hidden>
-						<input type="button" value="Book" class="btnSubmit">
+						<input type="text" class="valRow" value="'.$row['id'].'" hidden>
+						<input type="button" value="Delete" class="btnDelete">
 						<div class="error_msg"></div>
-				
+				</form>
 					';
 				echo "</td>";
+
+				echo "<td>";
+				echo '
+				<form>
+						<div id="msg"></div>
+						<input type="text" id="valRow" value="'.$row['id'].'" hidden>
+						<input type="button" value="Edit" id="btnEdit">
+						<div id="error_msg"></div>
+				</form>
+					';
+				echo "</td>";
+				echo "</tbody>";
 			echo "</tr>";
-			echo "</tbody>";
 		} 
 			mysqli_close($db); //to close the database connection 
 		?> 
@@ -88,10 +80,12 @@ $result = mysqli_query($db,"SELECT * FROM bike");
 
 <br>
 
+</div>
 
 <script src="jquery/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 <script>
+
 
 	$("document").ready(function(){
 		var bike_state = true;
@@ -115,8 +109,34 @@ $result = mysqli_query($db,"SELECT * FROM bike");
 		 					$(".msg", tbody).text("Bike has been booked");
 		 				}
 					 });
-}
-});
+				}
+		});
+
+		
+	    $(".btnDelete").click(function(){
+				var tbody = $(this).closest('tbody');
+				var val_Row = $('.valRow', tbody).val()
+
+				var result = confirm("Do you want to delete this booking?");
+				if (result) {
+					 $.ajax({
+					 	url: "process.php",
+					 	type: "post",
+					 	data: {
+					 		"del" : 1,
+					 		"id" : val_Row,
+					 	},
+					 	success: function(response){
+								alert(response);
+								/*$("#sqltable").reload();*/
+								$("#sqltable").load(location.href + " #sqltable");
+							}
+					 });
+				}	 
+		});
+		
+
+		
 	});
 
 </script>
