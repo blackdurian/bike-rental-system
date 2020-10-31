@@ -42,5 +42,14 @@
         <p>Bike</p>
       </a>
     </li>
+    <li class="nav-item active-pro ">
+    <form   class="nav-link" action="auth.php" method="post">
+              <i class="material-icons">unarchive</i>
+            
+              <input type="hidden"   name="logout" value="1">
+              <input type="submit" style="border: none;"  value="Log out">
+              </form>
+           
+          </li>
   </ul>
 </div>

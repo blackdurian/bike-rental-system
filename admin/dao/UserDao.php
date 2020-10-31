@@ -11,18 +11,20 @@ class UserDao {
     }
 
     function add($id, $username, $password, $role, $email, $dob, $profile_photo) {   
-        $query = "INSERT INTO br_user (id, username, password, role, email, dob, profile_photo) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $paramType = "ssssssb";
+        $query = "INSERT INTO br_user (id, username, password, role, email, dob,profile_photo) VALUES (?, ?, ?, ?, ?, ?,?)";
+        $paramType = "sssssss";
         $paramValue = array(
             $id,
             $username, 
             $password, 
             $role, 
             $email,
-            $dob,             
-            $profile_photo
+            $dob,
+            $profile_photo 
         );       
         $insert_id =$this->db_handle->insert($query, $paramType, $paramValue); 
+    //    $queryUpdate =  "UPDATE br_user SET profile_photo = '{$profile_photo}' WHERE id = '{$id}'";
+     //  $this->db_handle->runBaseQuery($queryUpdate);
          return $insert_id;
     }
 
@@ -41,6 +43,17 @@ class UserDao {
         return $result;
     }
 
+    function findAllVendor() {
+        $query = "SELECT * FROM br_user WHERE role = 'vendor' ORDER BY date_created;";
+        $result = $this->db_handle->runBaseQuery($query);
+        return $result;
+    }
+
+    function findAllCustomer() {
+        $query = "SELECT * FROM br_user WHERE role = 'customer' ORDER BY date_created;";
+        $result = $this->db_handle->runBaseQuery($query);
+        return $result;
+    }
       
     function findOne($id) {
         $query = "SELECT * FROM br_user WHERE id = ?";

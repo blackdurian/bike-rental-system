@@ -1,4 +1,6 @@
 <?php
+include('session.php');
+header("Location: rental.php");
     $title = 'Home';
     $meta = 'partials/meta.php';
     $sidebar = 'partials/sidebar.php';
