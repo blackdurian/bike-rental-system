@@ -17,64 +17,18 @@ require_once "../dao/RentalDao.php";
     }
 
     switch ($action) { 
-
-
-        
+    
         case "add":
-            if (isset($_POST['add'])) {
-                $name = $_POST['name'];
-                $roll_number = $_POST['roll_number'];
-                $dob = "";
-                if ($_POST["dob"]) {
-                    $dob_timestamp = strtotime($_POST["dob"]);
-                    $dob = date("Y-m-d", $dob_timestamp);
-                }
-                $class = $_POST['class'];
-                
-                $dao = new RentalDao();
-                //$insertId = $dao->add($name, $roll_number, $dob, $class);
-                if (empty($insertId)) {
-                    $response = array(
-                        "message" => "Problem in Adding New Record",
-                        "type" => "error"
-                    );
-                } else {
-                    header("Location: index.php");
-                }
-            }
-            $childView = 'views/_booking.php'; //booking add
-            break;
-        
+          
         case "edit":
-            $rental_id = $_GET["id"];
-            $dao = new RentalDao();
-            
-            if (isset($_POST['add'])) {
-                $name = $_POST['name'];
-                $roll_number = $_POST['roll_number'];
-                $dob = "";
-                if ($_POST["dob"]) {
-                    $dob_timestamp = strtotime($_POST["dob"]);
-                    $dob = date("Y-m-d", $dob_timestamp);
-                }
-                $class = $_POST['class'];
-                $bookingDao->editStudent($name, $roll_number, $dob, $class, $bookingDao_id);
-                
-                header("Location: index.php");
-            }
-            
-            $result = $bookingDao->getStudentById($bookingDao_id);
-            $childView = 'views/_booking.php';//booking edit
-            break;
         
         case "delete":
             $rental_id = $_GET["id"];
             $dao = new RentalDao();
-            
-            $bookingDao->deleteStudent($bookingDao_id);
-            
-            $result = $bookingDao->getAllStudent();
-            $childView = 'views/_booking.php';
+            $dao->delete($rental_id);
+            $result = $dao->findAll();
+            $childView = 'views/_rental_list.php';
+            include('partials/layout.php');
             break;
         
 

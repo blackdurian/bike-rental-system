@@ -32,7 +32,7 @@
      }
  
      function findAll() {
-         $query = "SELECT * FROM category";
+         $query = "SELECT * FROM category ORDER BY date_created;";
          $result = $this->db_handle->runBaseQuery($query);
          return $result;
      }

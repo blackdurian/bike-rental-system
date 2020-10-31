@@ -2,20 +2,11 @@
     <nav class="float-left">
         <ul>
             <li>
-                <a href="https://www.creative-tim.com">
-                    Creative Tim
+                <a href="https://www.creative-tim.com" style="text-transform:none;">
+                    BikeOverFlow.com
                 </a>
             </li>
-            <li>
-                <a href="https://creative-tim.com/presentation">
-                    About Us
-                </a>
-            </li>
-            <li>
-                <a href="http://blog.creative-tim.com">
-                    Blog
-                </a>
-            </li>
+        
            
         </ul>
     </nav>
@@ -23,7 +14,6 @@
         &copy;
         <script>
             document.write(new Date().getFullYear())
-        </script>, made with <i class="material-icons">favorite</i> by
-        <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
+        </script>, made with <i class="material-icons">favorite</i> by Lo Wei Quan.
     </div>
 </div>
