@@ -119,15 +119,15 @@ if ($isLoggedIn) {
                                     <form id="register-form" enctype="multipart/form-data" method="post"hidden>
                                         <div class="form-group">
                                             <label for="username"> Username</label>
-                                            <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" pattern="^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$" required>/>
+                                            <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" pattern="^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input type="email" name="email" id="email" tabindex="2" class="form-control" placeholder="Email Address" value="" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" required/>
+                                            <input type="email" name="email" id="email" tabindex="2" class="form-control" placeholder="Email Address" value="" required/>
                                         </div>
                                         <div class="form-group">
                                             <label for="password">Password</label>
-                                            <input type="password" name="password" id="password" tabindex="3" class="form-control" placeholder="Password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$" required/>
+                                            <input type="password" name="password" id="password" tabindex="3" class="form-control" placeholder="Password" required/>
                                         </div>
                                         <div class="form-group">
                                             <label for="confirm-password">Confirm password</label>

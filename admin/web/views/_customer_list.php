@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <div class="card card-plain">
         <div class="card-header card-header-primary">
-          <h4 class="card-title mt-0"> Vendor List</h4>
+          <h4 class="card-title mt-0"> Customer List</h4>
           <div class="card-category"> 
 </div>
         </div>
@@ -35,7 +35,7 @@
                   if (! empty($result)) {
                     foreach ($result as $k => $v) {
                 ?>
-                <tr  class='clickable-row'  data-href="vendor.php?action=view&id=<?php echo $result[$k]["id"]; ?>">
+                <tr  class='clickable-row'  data-href="customer.php?action=view&id=<?php echo $result[$k]["id"]; ?>">
                   <td>
                   <?php echo $k+1; ?>
                   </td>
@@ -54,7 +54,6 @@
                   <td>
                   <?php echo $result[$k]["date_created"]; ?>
                   </td>
-     
                 </tr>
                 <?php
                     }

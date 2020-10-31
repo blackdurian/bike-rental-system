@@ -42,6 +42,15 @@
          return $result;
      }
  
+     function findAllWithDetail() {
+        $query = 'SELECT b.*, v.username AS vendor_name,s.name AS station_name, c.name AS category_name 
+                    FROM (((bike b LEFT JOIN br_user v ON b.vendor_id = v.id) 
+                        LEFT JOIN station s ON b.current_station = s.id) 
+                        LEFT JOIN category c ON b.category = c.id)';
+        $result = $this->db_handle->runBaseQuery($query);
+        return $result;
+    }
+
        
      function findOne($id) {
          $query = "SELECT * FROM bike WHERE id = ?";

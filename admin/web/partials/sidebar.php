@@ -8,25 +8,25 @@
     </li>
     <li class="nav-item ">
       <a class="nav-link" href="rental.php">
-        <i class="material-icons">person</i>
+        <i class="material-icons">content_paste</i>
         <p>Rental Order</p>
       </a>
     </li>
     <li class="nav-item ">
       <a class="nav-link" href="vendor.php">
-        <i class="material-icons">content_paste</i>
+        <i class="material-icons">person</i>
         <p>Vendor</p>
       </a>
     </li>
     <li class="nav-item ">
       <a class="nav-link" href="customer.php">
-        <i class="material-icons">library_books</i>
+        <i class="material-icons">supervisor_account</i>
         <p>Customer</p>
       </a>
     </li>
     <li class="nav-item ">
       <a class="nav-link" href="category.php">
-        <i class="material-icons">bubble_chart</i>
+        <i class="material-icons">category</i>
         <p>Category</p>
       </a>
     </li>
@@ -38,7 +38,7 @@
     </li>
     <li class="nav-item ">
       <a class="nav-link" href="bike.php">
-        <i class="material-icons">bubble_chart</i>
+        <i class="material-icons">directions_bike</i>
         <p>Bike</p>
       </a>
     </li>
