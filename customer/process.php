@@ -31,6 +31,24 @@ if (isset($_POST['del'])) {
 	mysqli_close($db);
 	echo "Deleted Successfully!";
   	exit();
+}	
+
+//modify booking details // for view_bookings.php page
+if (isset($_POST['save_edit'])) {
+	$stmt = $db -> prepare("UPDATE rental set check_in_station=?,check_out_station=? where id =?");
+
+	$stmt->bind_param("sss",$check_in_station,$check_out_station,$id);
+	
+	$check_in_station = $_POST['check_in_station'];
+	$check_out_station = $_POST['check_out_station'];	
+	$id = $_POST['id'];
+
+	$stmt->execute();
+	$stmt->close();
+	mysqli_close($db);
+	echo "Updated Successfully!";
+  	exit();
 }
+
 
 ?>

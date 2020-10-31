@@ -98,20 +98,19 @@ $result = mysqli_query($db,"SELECT * FROM rental");
 <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 <script>
 
-	function editBooking(id){
+function editBooking(id){
+	 
 
-		console.log(id);
-		$("#check_in_station").val('');
-		$("#check_out_station").val('');
-		$("#btnUpdate").show();
+console.log(id);
+	    	$("#check_in_station").val('');
+		    $("#check_out_station").val('');
+		    $("#btnUpdate").show();
 
-		$("#EditForBooking").show();
+	    	$("#EditForBooking").show();
 		//	document.getElementById('row_value').innerHTML = val_Row;
-		$('#row_value').text(id);
-		// $("#sqltable").load(location.href + " #sqltable");
-
-		
-	}
+$('#row_value').text(id);
+			$("#sqltable").load(location.href + " #sqltable");
+}
 
 	$("document").ready(function(){
 		var bike_state = true;
@@ -163,14 +162,34 @@ $result = mysqli_query($db,"SELECT * FROM rental");
 		});
 		
 
+	    $(".btnEdit").click(function() {
 
+	    	var tbody = $(this).closest('tbody');
+			var val_Row = $('.valRow', tbody).val();
+
+console.log(val_Row);
+	    	$("#check_in_station").val('');
+		    $("#check_out_station").val('');
+		    $("#btnUpdate").show();
+
+	    	$("#EditForBooking").show();
+		//	document.getElementById('row_value').innerHTML = val_Row;
+$('#row_value').text(val_Row);
+			$("#sqltable").load(location.href + " #sqltable");
+
+				
+
+	    		
+
+	    });
 
 	    $("#btnUpdate").click(function() {
+			var tbody = $(this).closest('tbody');
+			var val_Row = $('.valRow', tbody).val();
 
-	    	var row_value = document.getElementById('row_value').innerHTML;
 	    	var checkInStation = $("#check_in_station").val();
 	    	var checkOutStation =$("#check_out_station").val();
-
+	    	console.log(val_Row);
 	    	$.ajax({
 	    		type: "POST",
 	    		url: "process.php",
@@ -178,7 +197,7 @@ $result = mysqli_query($db,"SELECT * FROM rental");
 	    			"save_edit":1,
 	    			"check_in_station": checkInStation,
 	    			"check_out_station": checkOutStation,
-	    			"id": row_value
+	    			"id": val_Row
 	    		},
 	    		success: function(respond) {
 	    			alert(respond);
