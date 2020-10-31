@@ -7,7 +7,7 @@ class DateUtil{
     //  date to string
     public static function dateToString($php_date){
         $date = strtotime($php_date);
-        return date(DateUtil::$DATE_FORMAT, $date );
+        return date(self::$DATE_FORMAT, $date );
     }
 
     public static function dateToDateString($php_date){
@@ -16,12 +16,13 @@ class DateUtil{
     }
 
     // string to date 
-    public static function stringToDate(string $format , string $datetime){
-        return DateTime::createFromFormat($format , $datetime);
-    }
+    //incorrect method
+    // public static function stringToDate(string $format , string $datetime){
+    //     return DateTime::createFromFormat($format , $datetime);
+    // }
 
     public static function getNow(){
-        return date(DateUtil::$DATE_FORMAT);
+        return date(self::$DATE_FORMAT);
     }
 
 }

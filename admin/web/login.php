@@ -116,31 +116,43 @@ if ($isLoggedIn) {
                             -->
 
                                     </form>
-                                    <form id="register-form" hidden>
+                                    <form id="register-form" enctype="multipart/form-data" method="post"hidden>
                                         <div class="form-group">
                                             <label for="username"> Username</label>
-                                            <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                                            <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" pattern="^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input type="email" name="email" id="email" tabindex="2" class="form-control" placeholder="Email Address" value="">
+                                            <input type="email" name="email" id="email" tabindex="2" class="form-control" placeholder="Email Address" value="" required/>
                                         </div>
                                         <div class="form-group">
                                             <label for="password">Password</label>
-                                            <input type="password" name="password" id="password" tabindex="3" class="form-control" placeholder="Password">
+                                            <input type="password" name="password" id="password" tabindex="3" class="form-control" placeholder="Password" required/>
                                         </div>
                                         <div class="form-group">
                                             <label for="confirm-password">Confirm password</label>
-                                            <input type="password" name="confirm-password" id="confirm-password" tabindex="4" class="form-control" placeholder="Retype Password">
+                                            <input type="password" name="confirm-password" id="confirm-password" tabindex="4" class="form-control" placeholder="Retype Password"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="birthday"> Birthday</label><br>
-                                            <input type="date" id="birthday" name="birthday">
+                                            <input type="date" id="birthday" name="birthday" tabindex="5"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="role"> Role</label><br>
+                                            <select id="role" name="role" tabindex="6" >
+                                                <option value="customer">Customer</option>
+                                                <option value="vendor">Vendor</option>
+                                                <option value="admin">Admin</option> 
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="profile-photo">Profile photo</label><br>
+                                            <input type="file" id="profile-photo" name="profile-photo" tabindex="7" />
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-sm-6 col-sm-offset-3">
-                                                    <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-primary" value="Register Now">
+                                                    <input type="submit" name="register-submit" id="btn-register-submit" tabindex="8" class="form-control btn btn-primary" value="Register Now"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -176,86 +188,7 @@ if ($isLoggedIn) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
     <!-- Library for adding dinamically elements -->
     <script src="assets/js/plugins/arrive.min.js"></script>
-    <script>
-        $(function() {
-
-            $('#login-form-link').click(function(e) {
-                $("#login-form").show();
-                $("#register-form").hide();
-                $('#register-form-link').removeClass('active');
-                $(this).addClass('active');
-                e.preventDefault();
-            });
-            $('#register-form-link').click(function(e) {
-                $("#register-form").show();
-                $("#login-form").hide();
-                $('#login-form-link').removeClass('active');
-                $(this).addClass('active');
-                e.preventDefault();
-            });
-
-
-            $("#btn-login").click(function() {
-
-                var username = $("#login-username").val();
-                var password = $("#login-password").val();
-                if (username.trim() && password.trim()) {
-
-                    $.ajax({
-                        type: "POST",
-                        url: "auth.php",
-                        data: {
-                            login: 1,
-                            username: username,
-                            password: password
-                            //todo cookies for remember me 
-                        },
-                        success: function(respond) {
-                            var respond = JSON.parse(respond)
-                            if (respond["status"] === "success") {
-                                window.location.href = "index.php";
-                                //todo fix mapping issue
-                            } else {
-                                $("#message").text(respond["message"]);
-                                console.log(respond);
-                            }
-                        }
-                    });
-                }
-            });
-
-
-        });
-
-        var password = document.getElementById("password"),
-            confirm_password = document.getElementById("confirm-password");
-
-        function validatePassword() {
-            if (password.value != confirm_password.value) {
-                confirm_password.setCustomValidity("Passwords Don't Match");
-            } else {
-                confirm_password.setCustomValidity('');
-            }
-        }
-
-        password.onchange = validatePassword;
-        confirm_password.onkeyup = validatePassword;
-
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-        today = yyyy + '-' + mm + '-' + dd;
-        document.getElementById("birthday").setAttribute("max", today);
-    </script>
-
-
+    <script src="assets/js/login.js"></script>
 </body>
 
 </html>

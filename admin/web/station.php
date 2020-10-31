@@ -1,6 +1,5 @@
 <?php
-
-session_start();
+include('session.php');
 require_once "../dao/StationDao.php";
 require_once "../util/UUID.php";
     $title = 'Home';
@@ -10,7 +9,7 @@ require_once "../util/UUID.php";
     $footer = 'partials/footer.php';
     $childView = 'views/_station_list.php';
     $customJs = 'assets/js/station.js';
-    $response = array(
+    $respond = array(
         "message" => "",
         "status" => ""
     );

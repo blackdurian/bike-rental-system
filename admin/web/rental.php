@@ -1,6 +1,5 @@
 <?php
-
-session_start();
+include('session.php');
 require_once "../dao/RentalDao.php";
  
     $title = 'Home';
@@ -19,9 +18,9 @@ require_once "../dao/RentalDao.php";
     switch ($action) { 
     
         case "add":
-          
-        case "edit":
-        
+          //todo: add rental
+        case "update":
+        //todo: update rental
         case "delete":
             $rental_id = $_GET["id"];
             $dao = new RentalDao();

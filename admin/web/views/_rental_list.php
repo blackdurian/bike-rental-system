@@ -5,6 +5,8 @@
         <div class="card-header card-header-primary">
           <h4 class="card-title mt-0"> Rental Orders List</h4>
           <div class="card-category"> 
+          <!-- 
+            TODO: filtering table
           <form action="#">
           <label>
         <input type="checkbox" class="filled-in" checked="checked" />
@@ -14,7 +16,7 @@
         <input type="checkbox" class="filled-in" checked="checked" />
         <span>show processing</span>
       </label>
-          </form>
+          </form> -->
 
 </div>
         </div>

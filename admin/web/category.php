@@ -10,7 +10,7 @@ require_once "../util/UUID.php";
     $footer = 'partials/footer.php';
     $childView = 'views/_category_list.php';
     $customJs = 'assets/js/category.js';
-    $response = array(
+    $respond = array(
         "message" => "",
         "status" => ""
     );

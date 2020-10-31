@@ -1,83 +1,54 @@
 <?php
     
-    $title = 'Home';
-    $meta = 'partials/meta.php';
-    $sidebar = 'partials/sidebar.php';
-    $navbar = 'partials/navbar.php';
-    $footer = 'partials/footer.php';
-    $childView = 'views/_vendor_list.php';
-    $action= "";
-    if (! empty($_GET["action"])) {
-        $action = $_GET["action"];
-    }
-
-    switch ($action) { 
-        case "add":
-            if (isset($_POST['add'])) {
-                $name = $_POST['name'];
-                $roll_number = $_POST['roll_number'];
-                $dob = "";
-                if ($_POST["dob"]) {
-                    $dob_timestamp = strtotime($_POST["dob"]);
-                    $dob = date("Y-m-d", $dob_timestamp);
-                }
-                $class = $_POST['class'];
+    include('session.php');
+    require_once "../dao/UserDao.php";
+     
+        $title = 'Home';
+        $meta = 'partials/meta.php';
+        $sidebar = 'partials/sidebar.php';
+        $navbar = 'partials/navbar.php';
+        $footer = 'partials/footer.php';
+        $childView = 'views/_vendor_list.php';
+        $customJs = 'assets/js/custom.js';
+        
+        $action ="";
+        if (! empty($_GET["action"])) {
+            $action = $_GET["action"];
+        }
+    
+        switch ($action) { 
+        
+            case "add":
+              //todo: add vendor user
+            case "update":
+            //todo: update vendor user
+            case "delete":
+                $vendor_id = $_GET["id"];
+                $dao = new UserDao();
+                //todo: role validaion 
+                $dao->delete($vendor_id);
+                $result = $dao->findAll();
+                $childView = 'views/_vendor_list.php';
+                include('partials/layout.php');
+                break;
+            
+    
+                case "view":
+                    $vendor_id = $_GET["id"];
+                    $dao = new UserDao();    
+                  //  $result =  $dao->findOneJoinFeedback($vendor_id);
+                    $childView = 'views/_vendor_detail.php';
+                    include('partials/layout.php');
+                    break;
+    
+            default:
+                $dao = new UserDao();
+                $result = $dao->findAllVendor();
+                $childView = 'views/_vendor_list.php';
+                include('partials/layout.php');
+                break;
+    
                 
-                $bookingDao = new Student();
-                $insertId = $bookingDao->addStudent($name, $roll_number, $dob, $class);
-                if (empty($insertId)) {
-                    $response = array(
-                        "message" => "Problem in Adding New Record",
-                        "type" => "error"
-                    );
-                } else {
-                    header("Location: index.php");
-                }
-            }
-            $childView = 'views/_booking.php'; //booking add
-            break;
-        
-        case "edit":
-            $bookingDao_id = $_GET["id"];
-            $bookingDao = new Student();
-            
-            if (isset($_POST['add'])) {
-                $name = $_POST['name'];
-                $roll_number = $_POST['roll_number'];
-                $dob = "";
-                if ($_POST["dob"]) {
-                    $dob_timestamp = strtotime($_POST["dob"]);
-                    $dob = date("Y-m-d", $dob_timestamp);
-                }
-                $class = $_POST['class'];
-                $bookingDao->editStudent($name, $roll_number, $dob, $class, $bookingDao_id);
-                
-                header("Location: index.php");
-            }
-            
-            $result = $bookingDao->getStudentById($bookingDao_id);
-            $childView = 'views/_booking.php';//booking edit
-            break;
-        
-        case "delete":
-            $bookingDao_id = $_GET["id"];
-            $bookingDao = new Student();
-            
-            $bookingDao->deleteStudent($bookingDao_id);
-            
-            $result = $bookingDao->getAllStudent();
-            $childView = 'views/_booking.php';
-            break;
-        
-        default:
-         //   $bookingDao = new Student();
-         //   $result = $bookingDao->getAllStudent();
-            $childView = 'views/_booking.php';
-            break;
-    }
-
-
-
-    include('partials/layout.php');
+        }
 
 ?>
