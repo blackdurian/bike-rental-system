@@ -3,7 +3,7 @@
 
 class DatabaseLoader {
     private static $instance = null;
-	private $host = "127.0.0.1:3307";
+	private $host = "localhost";
 	private $user = "root";
 	private $password = "";
 	private $database = "bike_rental_system";

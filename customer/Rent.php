@@ -22,9 +22,11 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style type="text/css">
-    	.spec {
+    	.fullImg {
+        /*object-fit: cover;*/
+        /*object-fit: fill;*/
 
-    	}
+      }
 
     </style>
 
@@ -47,48 +49,41 @@
 
 
       <header class="site-navbar site-navbar-target" role="banner">
+      	<div class="container">
+      		<div class="row align-items-center position-relative">
 
-        <div class="container">
-          <div class="row align-items-center position-relative">
+      			<div class="col-3 ">
+      				<div class="site-logo">
+      					<a href="index.html">CarRent</a>
+      				</div>
+      			</div>
 
-            <div class="col-3 ">
-              <div class="site-logo">
-                <a href="index.html">CarRent</a>
-              </div>
-            </div>
+      			<div class="col-9  text-right">
+      				<span class="d-inline-block d-lg-none"><a href="#" class="text-white site-menu-toggle js-menu-toggle py-5 text-white"><span class="icon-menu h3 text-white"></span></a></span>
 
-            <div class="col-9  text-right">
-              
+      				<nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
+      					<ul class="site-menu main-menu js-clone-nav ml-auto ">
+      						<li><a href="index.php" class="nav-link">Home</a></li>
+      						<li class="active"><a href="rent.php" class="nav-link">Rent a Bike</a></li>
+      						<li><a href="current_bookings.php" class="nav-link">View Bookings</a></li>
+      						<li><a href="feedback.php" class="nav-link">Feedback for Rental</a></li>
+      						<li><a href="blog.html" class="nav-link">Blog</a></li>
+      						<li><a href="contact.html" class="nav-link">Contact</a></li>
+      					</ul>
+      				</nav>
+      			</div>
 
-              <span class="d-inline-block d-lg-none"><a href="#" class="text-white site-menu-toggle js-menu-toggle py-5 text-white"><span class="icon-menu h3 text-white"></span></a></span>
-
-              
-
-              <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
-                <ul class="site-menu main-menu js-clone-nav ml-auto ">
-                  <li><a href="index.html" class="nav-link">Home</a></li>
-                  <li><a href="services.html" class="nav-link">Services</a></li>
-                  <li class="active"><a href="cars.html" class="nav-link">Cars</a></li>
-                  <li><a href="about.html" class="nav-link">About</a></li>
-                  <li><a href="blog.html" class="nav-link">Blog</a></li>
-                  <li><a href="contact.html" class="nav-link">Contact</a></li>
-                </ul>
-              </nav>
-            </div>
-
-            
-          </div>
-        </div>
-
+      		</div>
+      	</div>
       </header>
 
     <div class="ftco-blocks-cover-1">
-      <div class="ftco-cover-1 overlay innerpage" style="background-image: url('images/hero_2.jpg')">
+      <div class="ftco-cover-1 overlay innerpage" style="background-image: url('images/bg.jpg')">
         <div class="container">
           <div class="row align-items-center justify-content-center">
             <div class="col-lg-6 text-center">
-              <h1>Our For Rent Cars</h1>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+              <h1>Rent a Bike</h1>
+              <p>Choose any Bike to rent from our list of amazing bikes.</p>
             </div>
           </div>
         </div>
@@ -105,17 +100,22 @@
 include("conn.php");
 
 // $result = mysqli_query($db,"SELECT * FROM bike");
-$result = mysqli_query($db,"SELECT * FROM category INNER JOIN bike ON category.id = bike.category");
+// $result = mysqli_query($db,"SELECT * FROM category INNER JOIN bike ON category.id = bike.category");
+$result = mysqli_query($db,'SELECT b.*, v.username AS vendor_name,s.name AS station_name, c.name AS category_name 
+                    FROM (((bike b LEFT JOIN br_user v ON b.vendor_id = v.id) 
+                        LEFT JOIN station s ON b.current_station = s.id) 
+                        LEFT JOIN category c ON b.category = c.id)');
 
     while($row = mysqli_fetch_array($result)) 
     { 
+    	$id = $row['id'];
         echo '
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="item-1">
-                <a href="#"><img src="data:image/jpeg;base64,'.base64_encode( $row['photo'] ).'" alt="Image" class="img-fluid"></a>
+                <img src="data:image/jpeg;base64,'.base64_encode( $row['photo'] ).'" alt="Image" class="img-fluid fullImg">
                 <div class="item-1-contents">
                   <div class="text-center">
-                  <h3><a href="#">Range Rover S64 Coupe</a></h3>
+                  <h3>'.$row['name'].'</h3>
                   <div class="rating">
                     <span class="icon-star text-warning"></span>
                     <span class="icon-star text-warning"></span>
@@ -123,12 +123,12 @@ $result = mysqli_query($db,"SELECT * FROM category INNER JOIN bike ON category.i
                     <span class="icon-star text-warning"></span>
                     <span class="icon-star text-warning"></span>
                   </div>
-                  <div class="rent-price"><span>$'.$row['unit_price'].'/</span>day</div>
+                  <div class="rent-price"><span>RM'.$row['unit_price'].'/</span>hour</div>
                   </div>
                   <ul class="specs">
                     <li>
                       <span>Bike Category</span>
-                      <span class="spec">'.$row['name'].'</span>
+                      <span class="spec">'.$row['category_name'].'</span>
                     </li>
                     <li>
                       <span>Seats</span>
@@ -137,7 +137,7 @@ $result = mysqli_query($db,"SELECT * FROM category INNER JOIN bike ON category.i
                   </ul>
                   <div class="d-flex action">
                       <input class="valRow" value="'.$row['id'].'" hidden>
-                      <input type="button" value="Rent Now" class="btnSubmit btn btn-primary">
+                      <input type="button" value="Rent Now" onclick="editBooking(\''.$id.'\')" class="btn btn-primary">
                   </div>
                 </div>
               </div>
@@ -147,118 +147,67 @@ $result = mysqli_query($db,"SELECT * FROM category INNER JOIN bike ON category.i
         mysqli_close($db); //to close the database connection
 ?>
 
-
-
-
-          <div class="col-12">
-            <span class="p-3">1</span>
-            <a href="#" class="p-3">2</a>
-            <a href="#" class="p-3">3</a>
-            <a href="#" class="p-3">4</a>
-          </div>
         </div>
       </div>
     </div>
 
-    <div class="container site-section mb-5">
-      <div class="row justify-content-center text-center">
-        <div class="col-7 text-center mb-5">
-          <h2>How it works</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo assumenda, dolorum necessitatibus eius earum voluptates sed!</p>
-        </div>
-      </div>
-      <div class="how-it-works d-flex">
-        <div class="step">
-          <span class="number"><span>01</span></span>
-          <span class="caption">Time &amp; Place</span>
-        </div>
-        <div class="step">
-          <span class="number"><span>02</span></span>
-          <span class="caption">Car</span>
-        </div>
-        <div class="step">
-          <span class="number"><span>03</span></span>
-          <span class="caption">Details</span>
-        </div>
-        <div class="step">
-          <span class="number"><span>04</span></span>
-          <span class="caption">Checkout</span>
-        </div>
-        <div class="step">
-          <span class="number"><span>05</span></span>
-          <span class="caption">Done</span>
-        </div>
+    <div class="site-section pt-5 pb-5 bg-light" id="MoreDetails">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-12">
 
-      </div>
-    </div>
-
-    
+    				<form class="trip-form">
+    					<div class="row align-items-center mb-4">
+    						<div class="col-md-6">
+    							<h3 class="m-0">Booking Details<span id="bikename"></span></h3>
+    						</div>
+    						<!-- <div class="col-md-6 text-md-right">
+    							<span class="text-primary">32</span> <span>cars available</span></span>
+    						</div> -->
+    					</div>
+    					<div class="row">
+    						<div class="form-group col-md-3">
+    							<label for="cf-1">Choose Pick-Up Station</label>
+    							<input type="text" id="cf-1" placeholder="Your pickup address" class="form-control">
+    						</div>
+    						<div class="form-group col-md-3">
+    							<label for="cf-2">Choose Drop-off Station</label>
+    							<input type="text" id="cf-2" placeholder="Your drop-off address" class="form-control">
+    						</div>
+    						<div class="form-group col-md-3">
+    							<label for="cf-3">Select Check-In Time</label>
+    							<input type="text" id="cf-3" placeholder="Your pickup address" class="form-control datepicker px-3">
+    						</div>
+    						<div class="form-group col-md-3">
+    							<label for="cf-4">Select Check-Out Time</label>
+    							<input type="text" id="cf-4" placeholder="Your pickup address" class="form-control datepicker px-3">
+    						</div>
+    					</div>
+    					<div class="row">
+    						<div class="col-lg-6">
+    							<input type="submit" value="Submit" class="btnSubmit btn btn-primary">
+    						</div>
+    					</div>
+    				</form>
+    			</div>
+    		</div>
+    	</div>
+    </div>    
 
     <footer class="site-footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3">
-            <h2 class="footer-heading mb-4">About Us</h2>
-                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
-          </div>
-          <div class="col-lg-8 ml-auto">
-            <div class="row">
-              <div class="col-lg-3">
-                <h2 class="footer-heading mb-4">Quick Links</h2>
-                <ul class="list-unstyled">
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">Testimonials</a></li>
-                  <li><a href="#">Terms of Service</a></li>
-                  <li><a href="#">Privacy</a></li>
-                  <li><a href="#">Contact Us</a></li>
-                </ul>
-              </div>
-              <div class="col-lg-3">
-                <h2 class="footer-heading mb-4">Quick Links</h2>
-                <ul class="list-unstyled">
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">Testimonials</a></li>
-                  <li><a href="#">Terms of Service</a></li>
-                  <li><a href="#">Privacy</a></li>
-                  <li><a href="#">Contact Us</a></li>
-                </ul>
-              </div>
-              <div class="col-lg-3">
-                <h2 class="footer-heading mb-4">Quick Links</h2>
-                <ul class="list-unstyled">
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">Testimonials</a></li>
-                  <li><a href="#">Terms of Service</a></li>
-                  <li><a href="#">Privacy</a></li>
-                  <li><a href="#">Contact Us</a></li>
-                </ul>
-              </div>
-              <div class="col-lg-3">
-                <h2 class="footer-heading mb-4">Quick Links</h2>
-                <ul class="list-unstyled">
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">Testimonials</a></li>
-                  <li><a href="#">Terms of Service</a></li>
-                  <li><a href="#">Privacy</a></li>
-                  <li><a href="#">Contact Us</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row pt-5 mt-5 text-center">
-          <div class="col-md-12">
-            <div class="border-top pt-5">
-              <p>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
-            </div>
-          </div>
-
-        </div>
-      </div>
+    	<div class="container">
+    		<div class="row pt-1 mt-2 text-center">
+    			<div class="col-md-2"></div>
+    			<div class="col-md-8">
+    				<div class="border-top pt-5">
+    					<h3>About Us</h3> 
+    					<p>We want to make this world a better place and allow more access to bikes so that everyone can reduce the
+    					usage of fuel based transportation to help our environment heal</p>
+    				</div>
+    			</div>
+    			<div class="col-md-2"></div>
+    		</div>
+    	</div>
     </footer>
 
     </div>
@@ -279,8 +228,18 @@ $result = mysqli_query($db,"SELECT * FROM category INNER JOIN bike ON category.i
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
 
+    function editBooking(id){
+
+		console.log(id);
+		$("#MoreDetails").show();
+	}
+
+
     	$("document").ready(function(){
+    		$("#MoreDetails").hide();
     		var bike_state = true;
+
+
     		$(".btnSubmit").click(function(){
     			var tbody = $(this).closest('tbody');
     			var val_Row = $('.valRow', tbody).val()

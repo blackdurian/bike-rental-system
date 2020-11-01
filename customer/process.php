@@ -1,5 +1,8 @@
 <?php 
    include("conn.php");
+   include ("../util/UUID.php");
+
+   ;
  
  //to book new bike // for booking page (book.php)
   if (isset($_POST['save'])) {
@@ -49,6 +52,37 @@ if (isset($_POST['save_edit'])) {
 	echo "Updated Successfully!";
   	exit();
 }
+
+
+//submiting feedback details // for feedback.php
+ if (isset($_POST['save_feedback'])) {
+	$stmt = $db -> prepare("INSERT INTO feedback(id,rating,description) VALUES (?,?,?) ");
+	$stmt->bind_param("sss",$id,$rating,$description);
+	
+	//set parameters
+	$id = UUID::v4()
+	// $idfeedback = $_POST['feedback_id'];
+	$rating = $_POST['rating'];
+	$description = $_POST['description'];
+	
+	//execute sql & close connection
+	$stmt->execute();
+	$stmt->close();
+///////////////////////////
+	$idfeedback = $_POST['chosenOpt'];
+
+	$stmt2 = $db -> prepare("UPDATE rental set feedback_id=? WHERE id=".$idfeedback."");
+	$stmt2->bind_param("s",$id);
+
+	//execute sql & close connection
+	$stmt2->execute();
+	$stmt2->close();
+	mysqli_close($db);
+
+	//return success message to AJAX call
+  	echo "Registered Successfully!";
+  	exit();
+  }
 
 
 ?>
