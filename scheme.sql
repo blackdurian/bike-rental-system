@@ -23,6 +23,7 @@ CREATE TABLE br_user (  /*	'user' table name conflits in myphp admin , use br_us
 
 CREATE TABLE bike(
     id VARCHAR(255) PRIMARY KEY NOT NULL,
+    name VARCHAR(255),
     vendor_id VARCHAR(255),
     photo BLOB,
     category VARCHAR(255),

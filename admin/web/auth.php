@@ -51,26 +51,26 @@ if (isset($_POST["logout"])) {
 }
 
 if (isset($_POST["register"])) {
+    
+    $id = UUID::v4();
+    $username = $_POST['username'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $role = $_POST['role'];
+    $email = $_POST['email'];
+    $dob = $_POST['birthday'];
+     //todo: validation
+    $dao = new UserDao();
     if (isset($_FILES['profile-photo'])) {
         if (is_uploaded_file($_FILES['profile-photo']['tmp_name'])) {
             $profilePhoto = addslashes(file_get_contents($_FILES['profile-photo']['tmp_name']));
-            $id = UUID::v4();
-            $username = $_POST['username'];
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $role = $_POST['role'];
-            $email = $_POST['email'];
-            //todo: validation
-           // $dob = DateUtil::stringToDate("yyyy-mm-dd", $_POST['birthday']);
-            $dob = $_POST['birthday'];
-            $dao = new UserDao();
-            $dao->add($id,$username,$password,$role,$email,$dob,$profilePhoto);
+            $dao->addWithPhoto($id,$username,$password,$role,$email,$dob,$profilePhoto);
             $respond["status"] = "success";
             $respond["message"] = "Register Success!";
         }  
-
     }else{
-        $respond["status"] = "error";
-        $respond["message"] = "File cannot be empty.";
+        $dao->add($id,$username,$password,$role,$email,$dob);
+            $respond["status"] = "success";
+            $respond["message"] = "Register Success!";
     }
   //  header('Content-type: application/json');
   echo json_encode($respond);

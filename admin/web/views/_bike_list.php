@@ -18,6 +18,9 @@
                   ID
                 </th>
                 <th>
+                  Bike Name
+                </th>
+                <th>
                   Vendor
                 </th>
                 <th>
@@ -44,6 +47,9 @@
                   </td>
                   <td>
                   <?php echo $result[$k]["id"]; ?>
+                  </td>
+                  <td>
+                  <?php echo $result[$k]["name"]; ?>
                   </td>
                   <td>
                   <?php echo $result[$k]["vendor_name"]; ?>

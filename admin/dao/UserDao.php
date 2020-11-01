@@ -9,8 +9,24 @@ class UserDao {
     function __construct() {
         $this->db_handle = DatabaseLoader::getInstance();
     }
+    function add($id, $username, $password, $role, $email, $dob) {   
+        $query = "INSERT INTO br_user (id, username, password, role, email, dob) VALUES (?, ?, ?, ?, ?, ?)";
+        $paramType = "ssssss";
+        $paramValue = array(
+            $id,
+            $username, 
+            $password, 
+            $role, 
+            $email,
+            $dob
+        );       
+        $insert_id =$this->db_handle->insert($query, $paramType, $paramValue); 
+    //    $queryUpdate =  "UPDATE br_user SET profile_photo = '{$profile_photo}' WHERE id = '{$id}'";
+     //  $this->db_handle->runBaseQuery($queryUpdate);
+         return $insert_id;
+    }
 
-    function add($id, $username, $password, $role, $email, $dob, $profile_photo) {   
+    function addWithPhoto($id, $username, $password, $role, $email, $dob, $profile_photo) {   
         $query = "INSERT INTO br_user (id, username, password, role, email, dob,profile_photo) VALUES (?, ?, ?, ?, ?, ?,?)";
         $paramType = "sssssss";
         $paramValue = array(
@@ -49,6 +65,12 @@ class UserDao {
         return $result;
     }
 
+    
+    function findAllVendorName() {
+        $query = "SELECT id, username FROM br_user WHERE role = 'vendor' ORDER BY date_created;";
+        $result = $this->db_handle->runBaseQuery($query);
+        return $result;
+    }
     function findAllCustomer() {
         $query = "SELECT * FROM br_user WHERE role = 'customer' ORDER BY date_created;";
         $result = $this->db_handle->runBaseQuery($query);

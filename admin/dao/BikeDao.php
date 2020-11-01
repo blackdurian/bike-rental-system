@@ -11,11 +11,12 @@
          $this->db_handle = DatabaseLoader::getInstance();
      }
  
-     function add($id, $vendor_id, $photo, $category, $current_station, $is_return, $unit_price, $description) {   
-         $query = "INSERT INTO bike (id, vendor_id, photo, category, current_station, is_return, unit_price, description) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
-         $paramType = "ssbssids";
+     function addWithPhoto($id, $name,$vendor_id, $photo, $category, $current_station, $is_return, $unit_price, $description) {   
+         $query = "INSERT INTO bike (id, name, vendor_id, photo, category, current_station, is_return, unit_price, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
+         $paramType = "ssssssids";
          $paramValue = array(
             $id, 
+            $name,
             $vendor_id, 
             $photo, 
             $category, 
@@ -26,7 +27,22 @@
          );       
          $this->db_handle->insert($query, $paramType, $paramValue); 
      }
- 
+
+     function add($id, $name,$vendor_id, $category, $current_station, $is_return, $unit_price, $description) {   
+        $query = "INSERT INTO bike (id, name, vendor_id, category, current_station, is_return, unit_price, description) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+        $paramType = "sssssids";
+        $paramValue = array(
+           $id, 
+           $name,
+           $vendor_id, 
+           $category, 
+           $current_station, 
+           $is_return, 
+           $unit_price, 
+           $description
+        );       
+        $this->db_handle->insert($query, $paramType, $paramValue); 
+    }
      function delete($id) { 
          $query = "DELETE FROM bike WHERE id = ?";
          $paramType = "s";
@@ -62,12 +78,12 @@
          return $result;
      }
  
-     function update($id, $vendor_id, $photo, $category, $current_station, $is_return, $unit_price, $description) { // TODO: Change user mapping 
-         $query = "UPDATE bike SET vendor_id, photo, category, current_station, is_return, unit_price, description WHERE id = ?";
-         $paramType = "sbssidss";
+     function update($id, $name, $vendor_id, $category, $current_station, $is_return, $unit_price, $description) { // TODO: Change user mapping 
+         $query = "UPDATE bike SET name=?, vendor_id=?, category=?, current_station=?, is_return=?, unit_price=?, description=? WHERE id = ?";
+         $paramType = "ssssidss";
          $paramValue = array(
-            $vendor_id, 
-            $photo, 
+             $name,
+            $vendor_id,  
             $category, 
             $current_station, 
             $is_return, 
@@ -77,6 +93,23 @@
          );
          $this->db_handle->update($query, $paramType, $paramValue);
      }
+
+     function updateWithPhoto($id, $name, $vendor_id, $photo, $category, $current_station, $is_return, $unit_price, $description) { // TODO: Change user mapping 
+        $query = "UPDATE bike SET name=?, vendor_id=?, photo=?, category=?, current_station=?, is_return=?, unit_price=?, description=? WHERE id = ?";
+        $paramType = "sssssidss";
+        $paramValue = array(
+            $name,
+           $vendor_id, 
+           $photo, 
+           $category, 
+           $current_station, 
+           $is_return, 
+           $unit_price, 
+           $description,
+           $id
+        );
+        $this->db_handle->update($query, $paramType, $paramValue);
+    }
  }
  
 
