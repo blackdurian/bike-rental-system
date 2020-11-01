@@ -20,6 +20,7 @@
 <?php
 
 include("conn.php");
+include ("../core/util/UUID.php");
 
 $result = mysqli_query($db,"SELECT * FROM rental");
 ?>
@@ -66,7 +67,6 @@ $result = mysqli_query($db,"SELECT * FROM rental");
 				<form>
 						<div class="msg"></div>
 						<input type="text" class="valRow" value="'.$row['id'].'" hidden>
-						<input type="button" value="Edit" class="btnEdit" >
 						<input type="button" value="Edit" class="btnEdit" onclick="editBooking(\''.$id.'\')">
 						<div class="error_msg"></div>
 				</form>

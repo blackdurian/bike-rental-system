@@ -4,7 +4,8 @@ require_once "../dao/UserDao.php";
 require_once "../util/UUID.php";
 require_once "../util/DateUtil.php";
  
- 
+   $respond['status'] = "error";
+    $respond['message'] = "System no connected";
 
 
 if (isset($_POST["login"])) {
