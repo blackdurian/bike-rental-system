@@ -13,8 +13,8 @@
     $name = $_SESSION["username"];
   }
 
-  if(!($is_loggedIn && $role=='admin')) {
-      header("Location: login.php");
+  if(!($is_loggedIn && $role=='customer')) {
+      header("Location: ../");
   }
   
 ?>
