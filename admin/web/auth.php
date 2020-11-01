@@ -5,7 +5,10 @@ require_once "../util/UUID.php";
 require_once "../util/DateUtil.php";
  
  
-
+$respond = array(
+    "message" => "",
+    "status" => ""
+);
 
 if (isset($_POST["login"])) {
 
@@ -60,18 +63,24 @@ if (isset($_POST["register"])) {
     $dob = $_POST['birthday'];
      //todo: validation
     $dao = new UserDao();
-    if (isset($_FILES['profile-photo'])) {
-        if (is_uploaded_file($_FILES['profile-photo']['tmp_name'])) {
+ 
+ if (isset($_FILES['profile-photo'])) {
+    if(!file_exists($_FILES['profile-photo']['tmp_name']) || !is_uploaded_file($_FILES['profile-photo']['tmp_name'])) {
+        $dao->add($id,$username,$password,$role,$email,$dob);
+        $respond["status"] = "success";
+        $respond["message"] = "Register Success! No profile photo uploaded";
+         
+    }else if (is_uploaded_file($_FILES['profile-photo']['tmp_name'])) {
             $profilePhoto = addslashes(file_get_contents($_FILES['profile-photo']['tmp_name']));
             $dao->addWithPhoto($id,$username,$password,$role,$email,$dob,$profilePhoto);
             $respond["status"] = "success";
             $respond["message"] = "Register Success!";
         }  
-    }else{
-        $dao->add($id,$username,$password,$role,$email,$dob);
-            $respond["status"] = "success";
-            $respond["message"] = "Register Success!";
+    } else{
+        $respond["status"] = "error";
+        $respond["message"] = "Error with photo";
     }
+    
   //  header('Content-type: application/json');
   echo json_encode($respond);
 }

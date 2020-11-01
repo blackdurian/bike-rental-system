@@ -37,24 +37,70 @@ if ($isLoggedIn) {
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <style>
+        body {
+            background: linear-gradient(-45deg, #578794, #e73c7e, #23a6d5, #00ab83);
+            background-size: 400% 400%;
+            animation: gradient 20s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
         .tab {
-            background-color: #b2dfdb;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            color: white;
             padding: 20px 20px;
             margin-top: -15px;
             padding-right: 40px;
             text-align: center;
             text-decoration: none;
-
-        }
-
-        .panel {
-            background-color: #b2dfdb;
+            border-radius: 2px;
+            cursor: pointer;
         }
 
         .active,
         .tab:hover {
-            background-color: #004d40;
-            color: white;
+            background: inherit;
+            color: black;
+        }
+
+        /* 
+        .panel {
+            
+            background-color: #b2dfdb;
+            opacity: 0.9;
+        } */
+        .panel {
+            position: relative;
+            background: inherit;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .panel:before {
+            content: "";
+            position: absolute;
+            background: inherit;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
+            filter: blur(10px);
+            margin: -20px;
         }
     </style>
     <title><?php echo $title; ?></title>
@@ -67,9 +113,9 @@ if ($isLoggedIn) {
         <div class="container ">
 
             <div class="row">
-                <div class="  col-md-6 col-md-offset-3 col card  " style="padding-top:20%;">
-                    <h2>Bike Rental System</h2>
-                    <div class="panel panel-login">
+                <div class="  col-md-6 col-md-offset-3 col card  " style="margin-top:20%;">
+                    <h2 class="grey darken-3">Bike Rental System</h2>
+                    <div class="panel panel-login z-depth-5">
                         <div class="panel-heading">
 
                             <div class="row">
@@ -116,33 +162,33 @@ if ($isLoggedIn) {
                             -->
 
                                     </form>
-                                    <form id="register-form" enctype="multipart/form-data" method="post"hidden>
+                                    <form id="register-form" enctype="multipart/form-data" method="post" hidden>
                                         <div class="form-group">
                                             <label for="username"> Username</label>
                                             <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" pattern="^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input type="email" name="email" id="email" tabindex="2" class="form-control" placeholder="Email Address" value="" required/>
+                                            <input type="email" name="email" id="email" tabindex="2" class="form-control" placeholder="Email Address" value="" required />
                                         </div>
                                         <div class="form-group">
                                             <label for="password">Password</label>
-                                            <input type="password" name="password" id="password" tabindex="3" class="form-control" placeholder="Password" required/>
+                                            <input type="password" name="password" id="password" tabindex="3" class="form-control" placeholder="Password" required />
                                         </div>
                                         <div class="form-group">
                                             <label for="confirm-password">Confirm password</label>
-                                            <input type="password" name="confirm-password" id="confirm-password" tabindex="4" class="form-control" placeholder="Retype Password"/>
+                                            <input type="password" name="confirm-password" id="confirm-password" tabindex="4" class="form-control" placeholder="Retype Password" />
                                         </div>
                                         <div class="form-group">
                                             <label for="birthday"> Birthday</label><br>
-                                            <input type="date" id="birthday" name="birthday" tabindex="5"/>
+                                            <input type="date" id="birthday" name="birthday" tabindex="5" />
                                         </div>
                                         <div class="form-group">
                                             <label for="role"> Role</label><br>
-                                            <select id="role" name="role" tabindex="6" >
+                                            <select id="role" name="role" tabindex="6">
                                                 <option value="customer">Customer</option>
                                                 <option value="vendor">Vendor</option>
-                                                <option value="admin">Admin</option> 
+                                                <option value="admin">Admin</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -152,7 +198,7 @@ if ($isLoggedIn) {
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-sm-6 col-sm-offset-3">
-                                                    <input type="submit" name="register-submit" id="btn-register-submit" tabindex="8" class="form-control btn btn-primary" value="Register Now"/>
+                                                    <input type="submit" name="register-submit" id="btn-register-submit" tabindex="8" class="form-control btn btn-primary" value="Register Now" />
                                                 </div>
                                             </div>
                                         </div>
