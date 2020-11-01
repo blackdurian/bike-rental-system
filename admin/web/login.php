@@ -121,7 +121,7 @@ if ($isLoggedIn) {
                             <div class="row">
                                 <div class="tab col-xs-6 active" id="login-form-link">Login</div>
                                 <div class="tab col-xs-6 " id="register-form-link">Register</div>
-                                <p id="message"></p>
+                                <p id="message" style="padding-left: 20px;"></p>
                             </div>
 
                         </div>
