@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+include('session.php');
 require_once "../dao/CategoryDao.php";
 require_once "../util/UUID.php";
     $title = 'Home';
