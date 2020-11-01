@@ -33,7 +33,12 @@ $(function () {
             console.log(jsonRespond);
           var respond = JSON.parse(jsonRespond);
           if (respond["status"] == "success") {
-            window.location.href = "index.php";
+            if(respond["role"] == "admin"){
+              window.location.href = "index.php";
+            }
+            if(respond["role"] == "customer"){
+              window.location.href = "../../customer/index.php";
+            }
             //todo redirect from server
           } else {
             $("#message").text(respond["message"]);

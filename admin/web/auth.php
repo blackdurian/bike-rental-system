@@ -7,7 +7,8 @@ require_once "../util/DateUtil.php";
  
 $respond = array(
     "message" => "",
-    "status" => ""
+    "status" => "",
+    "role" => ""
 );
 
 if (isset($_POST["login"])) {
@@ -26,7 +27,7 @@ if (isset($_POST["login"])) {
             $_SESSION["role"] = $user[0]["role"];
             $_SESSION["email"] = $user[0]["email"];
             //TODO  Set COOKIE
-
+            $respond["role"] = $user[0]["role"];
             $respond["status"] = "success";
             $respond["message"] = "Login Success!";
         } else {

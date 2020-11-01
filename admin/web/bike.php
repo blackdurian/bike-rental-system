@@ -63,32 +63,31 @@
                     $name = $_POST['name'];
                     $vendor_Id = $_POST['vendor'];
                     $category = $_POST['category'];
-                   $current_station =$_POST['station'];
-                  $is_return = ($_POST['status']=="true")?true:false;
-                  $unit_price = $_POST['price'];
-                  $description = $_POST['description'];
-                  $dao = new BikeDao();
-                  if (isset($_FILES['profile-photo'])) {
-                      if (is_uploaded_file($_FILES['profile-photo']['tmp_name'])) {
-                          $photo = addslashes(file_get_contents($_FILES['profile-photo']['tmp_name']));
-                          $dao->updateWithPhoto($id,$name, $vendor_Id,$photo,$category,$current_station,$is_return,$unit_price,$description);
-                    
-                      }  
-                  }else{
-                      $dao->update($id,$name, $vendor_Id,$category,$current_station,$is_return,$unit_price,$description);
-                  }
+                    $current_station =$_POST['station'];
+                    $is_return = ($_POST['status']=="true")?true:false;
+                    $unit_price = $_POST['price'];
+                    $description = $_POST['description'];
+                    $dao = new BikeDao();
+                    if (isset($_FILES['profile-photo'])) {
+                        if (is_uploaded_file($_FILES['profile-photo']['tmp_name'])) {
+                            $photo = addslashes(file_get_contents($_FILES['profile-photo']['tmp_name']));
+                            $dao->updateWithPhoto($id,$name, $vendor_Id,$photo,$category,$current_station,$is_return,$unit_price,$description);                       
+                        }  
+                    }else{
+                        $dao->update($id,$name, $vendor_Id,$category,$current_station,$is_return,$unit_price,$description);
+                    }
                 }
              
 
             case "delete":
                 if(isset($_GET["id"])){
-                $bike_id = $_GET["id"];
-                $dao = new BikeDao();
-                $dao->delete($bike_id);
-                $result = $dao->findAllWithDetail();
-                $childView = 'views/_bike_list.php';
-                include('partials/layout.php');
-                break;
+                    $bike_id = $_GET["id"];
+                    $dao = new BikeDao();
+                    $dao->delete($bike_id);
+                    $result = $dao->findAllWithDetail();
+                    $childView = 'views/_bike_list.php';
+                    include('partials/layout.php');
+                    break;
                 }
     
                 case "view":
@@ -118,5 +117,3 @@
     
                 
         }
-
-?>
