@@ -30,9 +30,9 @@
 
 		<style type="text/css">
 			.fullImg {
-				/*object-fit: cover;*/
-				/*object-fit: fill;*/
-
+				width: 700px;
+				height: 200px;
+				object-fit: cover;
 			}
 
 		</style>
@@ -84,7 +84,7 @@
 			</header>
 
 		<div class="ftco-blocks-cover-1">
-			<div class="ftco-cover-1 overlay innerpage" style="background-image: url('images/bg.jpg')">
+			<div class="ftco-cover-1 overlay innerpage" style="background-image: url('../images/bg-customer.jpg')">
 				<div class="container">
 					<div class="row align-items-center justify-content-center">
 						<div class="col-lg-6 text-center">
@@ -107,7 +107,7 @@ include("conn.php");
 
 // $result = mysqli_query($db,"SELECT * FROM bike");
 // $result = mysqli_query($db,"SELECT * FROM category INNER JOIN bike ON category.id = bike.category");
-$result = mysqli_query($db,'SELECT b.*, v.username AS vendor_name,s.name AS station_name, c.name AS category_name 
+$result = mysqli_query($db,'SELECT b.*, b.name AS bike_name, v.username AS vendor_name,s.name AS station_name, c.name AS category_name 
 										FROM (((bike b LEFT JOIN br_user v ON b.vendor_id = v.id) 
 												LEFT JOIN station s ON b.current_station = s.id) 
 												LEFT JOIN category c ON b.category = c.id)');
@@ -115,15 +115,16 @@ $result = mysqli_query($db,'SELECT b.*, v.username AS vendor_name,s.name AS stat
 		while($row = mysqli_fetch_array($result)) 
 		{ 
 			$id = $row['id'];
-			$name = $row['name'];
+			$bike_name = $row['bike_name'];
 			$unitprice = $row['unit_price'];
+			$vendor_id = $row['vendor_id'];
 				echo '
 					<div class="col-lg-4 col-md-6 mb-4">
 						<div class="item-1">
 								<img src="data:image/jpeg;base64,'.base64_encode( $row['photo'] ).'" alt="Image" class="img-fluid fullImg">
 								<div class="item-1-contents">
 									<div class="text-center">
-									<h3><span class="bike_name">'.$row['name'].'</span></h3>
+									<h3><span>'.$bike_name.'</span></h3>
 									<div class="rating">
 										<span class="icon-star text-warning"></span>
 										<span class="icon-star text-warning"></span>
@@ -139,9 +140,15 @@ $result = mysqli_query($db,'SELECT b.*, v.username AS vendor_name,s.name AS stat
 											<span class="spec">'.$row['category_name'].'</span>
 										</li>
 									</ul>
+									<ul class="specs">
+										<li>
+											<span>Bike Description</span>
+											<span class="spec">'.$row['description'].'</span>
+										</li>
+									</ul>
 									<div class="d-flex action">
 											<input class="valRow" value="'.$row['id'].'" hidden>
-											<input type="button" value="Rent Now" onclick="showBooking(\''.$name.'\',\''.$unitprice.'\'); bikeID(\''.$id.'\');" class="btnRent btn btn-primary">
+											<input type="button" value="Rent Now" onclick="showBooking(\''.$bike_name.'\',\''.$unitprice.'\',\''.$vendor_id.'\'); bikeID(\''.$id.'\');" class="btnRent btn btn-primary">
 									</div>
 								</div>
 							</div>
@@ -172,7 +179,8 @@ $result = mysqli_query($db,'SELECT b.*, v.username AS vendor_name,s.name AS stat
 							<div class="row">
 								<div class="form-group col-md-3">
 									<label for="cf-3">Select Check-In Time</label>
-									<input type="hidden" id="picked-price" name="price" >
+									<input type="text" id="picked_price" hidden>
+									<input type="text" id="vendor_id" hidden>
 									<input type="text" id="CI_DT" name="date_field" placeholder="Your Check-In Time" class="form-control px-3">
 								</div>
 								<div class="form-group col-md-3">
@@ -211,20 +219,17 @@ $result = mysqli_query($db,'SELECT b.*, v.username AS vendor_name,s.name AS stat
 										<label for="dropdown">Select</label>
 									</select>
 								</div>
-								<div class="form-group col-md-7">
+								<!-- <div class="form-group col-md-7">
 									<label for="cf-4">Total Price</label>
 									<input type="text" id="totalPrice" readonly placeholder="Price will update once you select your check-in and check-out time"  class="form-control px-3">
-								</div>
+								</div> -->
 							</div>
 							<div class="row">
 								<div class="col-lg-6">
 									<input type="button" value="Book Rental" id="btnBook" class="btn btn-primary">
 								</div>
-
 							</div>
 						</form>
-
-
 					</div>
 				</div>
 			</div>
@@ -281,86 +286,52 @@ instance = new dtsel.DTS('input[name="date_field2"]',  {
 	timeFormat: "HH:MM:SS"
 });
 
-function showBooking(name, unitprice){
+function showBooking(bike_name, unitprice, vendor_id){
+	$("#MoreDetails").show();
 
-	console.log(name);
-	console.log('price from show booking'+ unitprice);
 	$("#optVal_CI").val('default');
 	$("#optVal_CO").val('default');
-	$("#picked-price").val(unitprice);
 	$("#CI_DT").val('');
 	$("#CO_DT").val('');
 
-	$("#MoreDetails").show();
-	$('#BikeName').text(name);
+
+	$('#BikeName').text(bike_name);
+	$("#picked_price").text(unitprice);
+	$('#vendor_id').text(vendor_id);
 
 }
 
 function bikeID(id){
-
-	console.log(id);
 	$('#row_value').text(id);
-
 }
 
-$("#CO_DT").change(function(){
-		var CI_DT = $("#CI_DT").val();
-	var CO_DT = $("#CO_DT").val();
-
- var unit_price = $("#picked-price").val();
-
- var totalPrice = calcTotalPrice(CI_DT,CO_DT,unit_price);
-   $("#totalPrice").val(totalPrice.toFixed(2)); 
-}); 
-//
 
 //to calculate the total price by date difference as soon as the checkout time loses focus
-function calcTotalPrice(date1,date2, unit_price){
-	var newDate1 = new Date(date1); 
-	var newDate2 = new Date(date2);
-	var newPrice = parseFloat(unit_price);
-	//console.log(unitprice);
-	// var UP = unitprice;
+// function calcTotalPrice(unit_price){
 
-//	var totalPrice = 0;
-//	var CI_DT = $("#CI_DT").val();
-//	var CO_DT = $("#CO_DT").val();
+// 	var totalPrice = 0;
+// 	var CI_DT = $("#CI_DT").val();
+// 	var CO_DT = $("#CO_DT").val();
 
 	
-	//var date1 = new Date(CI_DT); 
-	//var date2 = new Date(CO_DT); 
-	var timeDifference= newDate1.getTime() - newDate2.getTime();
-	var  daysDifference = timeDifference / (1000 * 3600 * 24);
-	var parsedDate = parseFloat(daysDifference);
-	//var num2 = parseFloat(unitprice);
+// 	var date1 = new Date(CI_DT); 
+// 	var date2 = new Date(CO_DT); 
+// 	var timeDifference= newDate1.getTime() - newDate2.getTime();
+// 	var daysDifference = timeDifference / (1000 * 3600 * 24);
+// 	var totalPrice = daysDifference*unit_price;
 
-	var totalPrice = parsedDate*newPrice;
+// 		if(document.getElementById("CI_DT").value.length == 0)
+// 		{
+// 		    ("#totalPrice").val('');
+// 		}
 
-	//var num3 = parseFloat(totalPrice);
+// 		if(document.getElementById("CO_DT").value.length == 0)
+// 		{
+// 		    $("#totalPrice").val('');
+// 		}
 
-	 console.log("newPrice");
-	 console.log(newPrice);
-	 	 console.log("typeof newPrice");
-	 console.log(typeof newPrice);
-	  	console.log("parsedDate");
- 	console.log(parsedDate);
- console.log("typeof parsedDate");
- 		 console.log(typeof parsedDate);
-console.log( "toatl"+ totalPrice.toFixed(2));
-
-
-		// if(document.getElementById("CI_DT").value.length == 0)
-		// {
-		//     ("#totalPrice").val('');
-		// }
-
-		// if(document.getElementById("CO_DT").value.length == 0)
-		// {
-		//     $("#totalPrice").val('');
-		// }
-
-	return totalPrice; 
-}
+// 	return totalPrice; 
+// }
 
 
 $("document").ready(function(){
@@ -371,15 +342,13 @@ $("document").ready(function(){
 
 	$("#btnBook").click(function(){
 
-
-
 		var bike_id = document.getElementById('row_value').innerHTML;
+		var vendor_id = document.getElementById('vendor_id').innerHTML;
+		var picked_price = document.getElementById('picked_price').innerHTML;
 		var optVal_CI = $("#optVal_CI").val();
 		var optVal_CO = $("#optVal_CO").val();
 		var CI_DT = $("#CI_DT").val();
-		var CO_DT = $("#CI_DT").val();
-
-
+		var CO_DT = $("#CO_DT").val();
 
 
 		if (bike_state == false) {
@@ -392,7 +361,14 @@ $("document").ready(function(){
 					 	type: "post",
 					 	data: {
 					 		"save" : 1,
-					 		"bike_id" : bike_id,
+					 		"bike_id": bike_id,
+					 		"check_in_time": CI_DT,
+					 		"check_out_time": CO_DT,
+					 		"check_in_station": optVal_CI,
+					 		"check_out_station": optVal_CO,
+					 		"unit_price": picked_price,
+					 		"is_complete": 0,
+					 		"vendor_id": vendor_id,
 					 	},
 					 	success: function(response){
 					 		alert(response);

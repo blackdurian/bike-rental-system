@@ -1,10 +1,13 @@
-<!doctype html>
-<html lang="en">
 <?php
-include("conn.php");
+
+include('session.php');
 
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
 
 <head>
     <title>Home</title>
@@ -90,7 +93,7 @@ include("conn.php");
       </header>
 
     <div class="ftco-blocks-cover-1">
-      <div class="ftco-cover-1 overlay innerpage" style="background-image: url('images/bg.jpg')">
+      <div class="ftco-cover-1 overlay innerpage" style="background-image: url('../images/bg-customer.jpg')">
         <div class="container">
           <div class="row align-items-center justify-content-center">
             <div class="col-lg-6 text-center">
@@ -112,15 +115,19 @@ include("conn.php");
 
               <div class="form-group row">
                 <div class="col-md-12">
-                  <select class="form-control">
-                  	<option class="form-control" selected="selected"  value='default'>Please Select a Rental</option>
+                  <select class="form-control" id="optVal">
+                  	<option class="form-control" selected="selected"  value='default'>Please Select a Rental: Bike Name / Check-In Time</option>
                   	<?php
                   	include ("conn.php");
-                  	$result = mysqli_query($db, "SELECT * FROM rental INNER JOIN feedback on rental.feedback_id = feedback.id WHERE rental.is_complete = 1");
+                  	$result = mysqli_query($db, "SELECT r.id, b.name, r.check_in_time
+                          FROM (rental r
+                          INNER JOIN bike b ON r.bike_id = b.id)
+                          WHERE r.is_complete = 1 AND r.customer_id = '{$user_id}'");
+                    // $result = mysqli_query($db, "SELECT * FROM rental INNER JOIN feedback on rental.feedback_id = feedback.id WHERE rental.is_complete = 1");
                   	// $result = mysqli_query($db, "SELECT * FROM rental ");
 
                   	while($row = mysqli_fetch_array($result)) {
-                  		echo("<option class=\"form-control\" class=\"optVal\" value='".$row['id']."'>".$row['id']."</option>");
+                  		echo("<option class=\"form-control\" value='".$row['id']."'>".$row['name']." / ".$row['check_in_time']."</option>");
                   	}
                   	?>
                   	<label for="dropdown">Select</label>
@@ -189,47 +196,38 @@ include("conn.php");
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
 
-    	$("document").ready(function(){
+ 	$("document").ready(function(){
 
-$(".optVal").click(function(){
+ 		var bike_state = true;
 
-	var select = $(this).closest('select');
-    var optVal = $('.optVal', select).val();
+ 		$("#btnSubmit").click(function(){
 
-	alert(text(optVal));
-});
+ 			var optVal = $("#optVal").val();
+ 			var rating = $("#rating").val();
+ 			var description =$("#description").val();
 
-    		var bike_state = true;
-    		
-    		$("#btnSubmit").click(function(){
-    			var select = $(this).closest('select');
-    			var optVal = $('.optVal', select).val()
-
-    			var rating = $("#rating").val();
-	    		var description =$("#description").val();
-
-    			if (bike_state == false) {
-    				$(".error_msg").text("Fix the errors in the form first");
-    			}else{
-    				$(".error_msg").text("");
-           // proceed with form submission
-           $.ajax({
-           	url: "process.php",
-           	type: "post",
-           	data: {
-           		"save_feedback" : 1,
-           		"chosenOpt" : optVal,
-           		"rating" : rating,
-           		"description": description,
-           	},
-           	success: function(response){
-           		alert(response);
-           		alert("Feedback Submitted Successfully!");
-           	}
-           });
-       }
-   });
-    	});
+ 			if (bike_state == false) {
+ 				$(".error_msg").text("Fix the errors in the form first");
+ 			}else{
+ 				$(".error_msg").text("");
+					// proceed with form submission
+					$.ajax({
+						url: "process.php",
+						type: "post",
+						data: {
+							"save_feedback" : 1,
+							"rental_id" : optVal,
+							"rating" : rating,
+							"description": description,
+						},
+						success: function(response){
+							alert(response);
+							/*alert("Feedback Submitted Successfully!");*/
+						}
+					});
+					}
+					});
+ 	});
 
     </script>
 

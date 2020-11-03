@@ -92,7 +92,7 @@
       </header>
 
     <div class="ftco-blocks-cover-1">
-      <div class="ftco-cover-1 overlay innerpage" style="background-image: url('images/bg.jpg')">
+      <div class="ftco-cover-1 overlay innerpage" style="background-image: url('../images/bg-customer.jpg.jpg')">
         <div class="container">
           <div class="row align-items-center justify-content-center">
             <div class="col-lg-6 text-center">
@@ -122,13 +122,12 @@ include ("../core/util/UUID.php");
 //                         LEFT JOIN station s ON b.current_station = s.id) 
 //                         LEFT JOIN category c ON b.category = c.id)');
 
-$result = mysqli_query($db,'SELECT r.id AS rental_id, b.name AS bike_name, r.check_in_time, r.check_out_time, CI.name AS CI_station_name, 
+$result = mysqli_query($db,"SELECT r.id AS rental_id, b.name AS bike_name, r.check_in_time, r.check_out_time, CI.name AS CI_station_name, 
                         CO.name AS CO_station_name, r.total_price
                         FROM (((rental r 
                         INNER JOIN station CI ON  r.check_in_station = CI.id)
                         INNER JOIN station CO ON  r.check_out_station = CO.id)
-                        INNER JOIN bike b ON r.bike_id = b.id) WHERE is_complete=0
-                       ');
+                        INNER JOIN bike b ON r.bike_id = b.id) WHERE is_complete=0 AND r.customer_id = '{$user_id}'");
 ?>
       
         <table class="table table-bordered" >
@@ -398,7 +397,7 @@ $result = mysqli_query($db,'SELECT r.id AS rental_id, b.name AS bike_name, r.che
                 },
                 success: function(response){
                   alert(response);
-                  $(".msg", tbody).text("Bike has been booked");
+                  // $(".msg", tbody).text("Bike has been booked");
                 }
                });
             }
