@@ -124,7 +124,16 @@ if (isset($_POST['save_edit'])) {
   	exit();
   }
 
+/// BLob 
 
+if(isset($_GET['img_bike_id'])) {
+$bike_id=$_GET['img_bike_id'];
+    $sql = 'SELECT * FROM bike WHERE id="'.$bike_id.'"';
+	$result = mysqli_query($db, $sql) or die("<b>Error:</b> Problem on Retrieving Image BLOB<br/>" . mysqli_error($db));
+	$row = mysqli_fetch_array($result);
+	header("Content-Type: image/jpeg" );
+    echo $row["photo"];
+}
 
 
 ?>

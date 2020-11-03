@@ -73,15 +73,16 @@
 
               
 
-              <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
-                <ul class="site-menu main-menu js-clone-nav ml-auto ">
-                  <li class="active"><a href="index.php" class="nav-link">Home</a></li>
-                  <li><a href="rent.php" class="nav-link">Rent a Bike</a></li>
-                  <li><a href="current_bookings.php" class="nav-link">View Bookings</a></li>
-                  <li><a href="feedback.php" class="nav-link">Feedback for Rental</a></li>
-                  <li><a href="logout.php" class="nav-link">Logout</a></li>
-                </ul>
-              </nav>
+  <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
+  	<ul class="site-menu main-menu js-clone-nav ml-auto ">
+  		<li class="active"><a href="index.php" class="nav-link">Home</a></li>
+  		<li><a href="rent.php" class="nav-link">Rent a Bike</a></li>
+  		<li><a href="current_bookings.php" class="nav-link">View Bookings</a></li>
+  		<li><a href="feedback.php" class="nav-link">Feedback for Rental</a></li>
+  		<li><a href="logout.php" class="nav-link">Logout</a></li>
+  	</ul>
+  </nav>
+              
             </div>
 
             

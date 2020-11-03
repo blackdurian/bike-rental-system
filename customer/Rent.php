@@ -102,7 +102,7 @@
 
 
 <?php
-
+//src="data:image/jpeg;base64,'.base64_encode( $row['photo'] ).'" alt="Image" 
 include("conn.php");
 
 // $result = mysqli_query($db,"SELECT * FROM bike");
@@ -121,7 +121,7 @@ $result = mysqli_query($db,'SELECT b.*, b.name AS bike_name, v.username AS vendo
 				echo '
 					<div class="col-lg-4 col-md-6 mb-4">
 						<div class="item-1">
-								<img src="data:image/jpeg;base64,'.base64_encode( $row['photo'] ).'" alt="Image" class="img-fluid fullImg">
+								<img src="process.php?img_bike_id='.$id.'" alt="Image" class="img-fluid fullImg">
 								<div class="item-1-contents">
 									<div class="text-center">
 									<h3><span>'.$bike_name.'</span></h3>
@@ -181,16 +181,16 @@ $result = mysqli_query($db,'SELECT b.*, b.name AS bike_name, v.username AS vendo
 									<label for="cf-3">Select Check-In Time</label>
 									<input type="text" id="picked_price" hidden>
 									<input type="text" id="vendor_id" hidden>
-									<input type="text" id="CI_DT" name="date_field" placeholder="Your Check-In Time" class="form-control px-3">
+									<input type="text" id="CI_DT" name="date_field"  placeholder="Your Check-In Time" required class="form-control px-3">
 								</div>
 								<div class="form-group col-md-3">
 									<label for="cf-4">Select Check-Out Time</label>
-									<input type="text" id="CO_DT" name="date_field2" placeholder="Your Check-Out Time" onfocusout="calcTotalPrice()" class="form-control px-3">
+									<input type="text" id="CO_DT" name="date_field2" placeholder="Your Check-Out Time" required class="form-control px-3">
 								</div>
 								<div class="form-group col-md-3">
 									<label for="cf-1">Choose Pick-Up Station</label>
-									<select class="form-control" id="optVal_CI" >
-										<option class="form-control" selected="selected"  value='default'>Please Select a Station</option>
+									<select class="form-control" id="optVal_CI" required>
+										<option class="form-control" selected="selected" value="">Please Select a Station</option>
 										<?php
 										include ("conn.php");
 										// $result = mysqli_query($db, "SELECT * FROM rental INNER JOIN feedback on rental.feedback_id = feedback.id WHERE rental.is_complete = 1");
@@ -205,8 +205,8 @@ $result = mysqli_query($db,'SELECT b.*, b.name AS bike_name, v.username AS vendo
 								</div>
 								<div class="form-group col-md-3">
 									<label for="cf-2">Choose Drop-off Station</label>
-									<select class="form-control" id="optVal_CO">
-										<option class="form-control" selected="selected"  value='default'>Please Select a Station</option>
+									<select class="form-control" id="optVal_CO" required>
+										<option class="form-control" selected="selected" value="">Please Select a Station</option>
 										<?php
 										include ("conn.php");
 										// $result = mysqli_query($db, "SELECT * FROM rental INNER JOIN feedback on rental.feedback_id = feedback.id WHERE rental.is_complete = 1");
