@@ -69,12 +69,11 @@
 
               <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
                 <ul class="site-menu main-menu js-clone-nav ml-auto ">
-                  <li class="active"><a href="index.html" class="nav-link">Home</a></li>
+                  <li class="active"><a href="index.php" class="nav-link">Home</a></li>
                   <li><a href="rent.php" class="nav-link">Rent a Bike</a></li>
                   <li><a href="current_bookings.php" class="nav-link">View Bookings</a></li>
                   <li><a href="feedback.php" class="nav-link">Feedback for Rental</a></li>
-                  <li><a href="blog.html" class="nav-link">Blog</a></li>
-                  <li><a href="contact.html" class="nav-link">Contact</a></li>
+                  <li><a href="logout.php" class="nav-link">Logout</a></li>
                 </ul>
               </nav>
             </div>
@@ -157,36 +156,6 @@
     						</ul>
     						<div class="d-flex action">
     							<a href="contact.html" class="btn btn-primary fullwidthbtn">Current Bookings</a>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-
-    			<div class="col-lg-4 col-md-6 mb-4">
-    				<div class="item-1">
-    					<!-- <a href="#"><img src="images/img_1.jpg" alt="Image" class="img-fluid"></a> -->
-    					<div class="item-1-contents">
-    						<div class="text-center">
-    							<h2>View profile</h2>
-    							<div class="rating">
-    								<span class="icon-star text-warning"></span>
-    								<span class="icon-star text-warning"></span>
-    								<span class="icon-star text-warning"></span>
-    								<span class="icon-star text-warning"></span>
-    								<span class="icon-star text-warning"></span>
-    							</div>
-    						</div>
-    						<ul class="specs">
-    							<li>
-    								<span class="spec"></span>
-    							</li>
-    							<li>
-    								<span class="centor">View and Edit your Profile</span>
-    								<span class="spec"></span>
-    							</li>
-    						</ul>
-    						<div class="d-flex action">
-    							<a href="contact.html" class="btn btn-primary fullwidthbtn">View Profile</a>
     						</div>
     					</div>
     				</div>

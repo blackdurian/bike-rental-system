@@ -1,4 +1,9 @@
-<!-- This webpage is to view all the available bikes, the user should be able to book whichever one they want -->
+<?php
+    
+    include('session.php');
+
+?>
+    <!-- This webpage is to view all the available bikes, the user should be able to book whichever one they want -->
 
 <!DOCTYPE html>
 <html>
