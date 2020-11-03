@@ -34,16 +34,14 @@
                     $description = $_POST['description'];
 
                       $dao = new BikeDao();
-                      if (isset($_FILES['profile-photo'])) {
-                          if (is_uploaded_file($_FILES['profile-photo']['tmp_name'])) {
-                              $photo = addslashes(file_get_contents($_FILES['profile-photo']['tmp_name']));
-                              $dao->addWithPhoto($id,$name, $vendor_Id,$photo,$category,$current_station,$is_return,$unit_price,$description);
-                        
-                          }  
-                      }else{
-                          $dao->add($id,$name, $vendor_Id,$category,$current_station,$is_return,$unit_price,$description);
-                          
-                      }
+                      if (isset($_FILES['bike-photo'])) {
+                        if(!file_exists($_FILES['bike-photo']['tmp_name']) || !is_uploaded_file($_FILES['bike-photo']['tmp_name'])) {
+                            $dao->add($id,$name, $vendor_Id,$category,$current_station,$is_return,$unit_price,$description);
+                        }else if (is_uploaded_file($_FILES['bike-photo']['tmp_name'])) {
+                            $photo = addslashes(file_get_contents($_FILES['bike-photo']['tmp_name']));
+                            $dao->addWithPhoto($id,$name, $vendor_Id,$photo,$category,$current_station,$is_return,$unit_price,$description);
+                            }  
+                        } 
                      
                     header("Location: bike.php");
                   } else{
@@ -64,18 +62,18 @@
                     $vendor_Id = $_POST['vendor'];
                     $category = $_POST['category'];
                     $current_station =$_POST['station'];
-                    $is_return = ($_POST['status']=="true")?true:false;
+                    $is_return = (isset($_POST['status']))?true:false;
                     $unit_price = $_POST['price'];
                     $description = $_POST['description'];
                     $dao = new BikeDao();
-                    if (isset($_FILES['profile-photo'])) {
-                        if (is_uploaded_file($_FILES['profile-photo']['tmp_name'])) {
-                            $photo = addslashes(file_get_contents($_FILES['profile-photo']['tmp_name']));
-                            $dao->updateWithPhoto($id,$name, $vendor_Id,$photo,$category,$current_station,$is_return,$unit_price,$description);                       
-                        }  
-                    }else{
-                        $dao->update($id,$name, $vendor_Id,$category,$current_station,$is_return,$unit_price,$description);
-                    }
+                    if (isset($_FILES['bike-photo'])) {
+                        if(!file_exists($_FILES['bike-photo']['tmp_name']) || !is_uploaded_file($_FILES['bike-photo']['tmp_name'])) {
+                            $dao->update($id,$name, $vendor_Id,$category,$current_station,$is_return,$unit_price,$description);
+                        }else if (is_uploaded_file($_FILES['bike-photo']['tmp_name'])) {
+                            $photo = addslashes(file_get_contents($_FILES['bike-photo']['tmp_name']));
+                            $dao->updateWithPhoto($id,$name, $vendor_Id,$photo,$category,$current_station,$is_return,$unit_price,$description);
+                            }  
+                        } 
                 }
              
 

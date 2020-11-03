@@ -13,13 +13,15 @@ function btnToggle(id) {
     });
   }
   
+
   function save(id) {
     var nameId = "#name-input-" + id;
     var descriptionId = "#description-input-" + id;
     var categoryId = id;
     var categoryName = $(nameId).val();
     var categoryDescription = $(descriptionId).val();
-    var isValid = Boolean(!(categoryName === null || categoryName.trim() === "") &&  !(categoryDescription === null || categoryDescription.trim() === ""));
+    var isValid = Boolean(!(categoryName === null || categoryName.trim() === "") 
+                          && !(categoryDescription === null || categoryDescription.trim() === ""));
       $(function () {
           if (isValid) {
                   // update record
@@ -55,7 +57,8 @@ function btnToggle(id) {
     var categoryName = $(nameId).val();
     var categoryDescription = $(descriptionId).val();
 
-    var isValid = Boolean(!(categoryName === null || categoryName.trim() === "") &&  !(categoryDescription === null || categoryDescription.trim() === ""));
+    var isValid = Boolean(!(categoryName === null || categoryName.trim() === "") 
+    && !(categoryDescription === null || categoryDescription.trim() === ""));
       $(function () {
           if (isValid) {
                 $.ajax({
@@ -65,7 +68,7 @@ function btnToggle(id) {
                     add: 1,
                     id: categoryId, 
                     name: categoryName,
-                    description: categoryDescription,
+                    description: categoryDescription
                   },
                   success: function (jsonResponse) {
                     var respond = JSON.parse(jsonResponse)

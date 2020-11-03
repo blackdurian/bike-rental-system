@@ -62,6 +62,16 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="bike-photo">Bike photo</label><br>  
+                        </div>
+
+                        <div class="btn">
+                            <span>Upload Bike photo</span>
+                            <input type="file" id="bike-photo" name="bike-photo" class="form-control"/>
+                        </div>
+     
+     
+                        <div class="form-group">
                             <label for="status">Is Return</label>
                             <input type="checkbox" name="status" value="true" require>
                         </div>
