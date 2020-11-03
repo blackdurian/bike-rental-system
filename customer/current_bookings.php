@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
     <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="dtsel/dtsel.css" />
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="css/style.css">
@@ -121,19 +122,19 @@ include ("../core/util/UUID.php");
 //                         LEFT JOIN station s ON b.current_station = s.id) 
 //                         LEFT JOIN category c ON b.category = c.id)');
 
-$result = mysqli_query($db,'SELECT b.name,b.id,  r.*, v.username AS vendor_name,s.name AS station_name, c.name AS category_name, b.name AS bike_name, r.id AS rental_id
-                    FROM (((((rental r 
-                        LEFT JOIN br_user v ON r.customer_id = v.id) 
-                        LEFT JOIN bike b ON r.bike_id = b.id) 
-                        LEFT JOIN category c ON b.category = c.id)
-                        LEFT JOIN station s ON r.check_out_station = s.id)
-                        LEFT JOIN station t ON r.check_in_station = t.id)
+$result = mysqli_query($db,'SELECT r.id AS rental_id, b.name AS bike_name, r.check_in_time, r.check_out_time, CI.name AS CI_station_name, 
+                        CO.name AS CO_station_name, r.total_price
+                        FROM (((rental r 
+                        INNER JOIN station CI ON  r.check_in_station = CI.id)
+                        INNER JOIN station CO ON  r.check_out_station = CO.id)
+                        INNER JOIN bike b ON r.bike_id = b.id) WHERE is_complete=0
                        ');
 ?>
       
         <table class="table table-bordered" >
             <thead>
                   <tr>
+                  	<th>Booking Number</th>
                     <th>Bike Name</th>
                     <th>Check In Time</th>
                     <th>Check Out Time</th>
@@ -142,17 +143,27 @@ $result = mysqli_query($db,'SELECT b.name,b.id,  r.*, v.username AS vendor_name,
                     <th>Total Price</th>
                     <th>Delete</th>
                     <th>Edit</th>
+                    <th>Mark As Done</th>
                 </tr>
             </thead>
 
             <?php
+        $rowNum = 0;
         while($row = mysqli_fetch_array($result)) 
         { 
-            $id = $row['id'];
+            $id = $row['rental_id'];
+            
+            $rowNum++;
             echo "<tr>";
                 echo "<tbody>";
+
+                echo "<td>";
+                echo "<span>".$rowNum."</span>"; 
+                echo '<input type="text" class="rowNum" value="'.$rowNum.'" hidden>';
+                echo "</td>";
+
                 echo "<td>"; 
-                echo $row['name'];
+                echo $row['bike_name'];
                 echo "</td>";
 
                 echo "<td>";
@@ -164,11 +175,11 @@ $result = mysqli_query($db,'SELECT b.name,b.id,  r.*, v.username AS vendor_name,
                 echo "</td>";
 
                 echo "<td>";
-                echo $row['check_in_station'];
+                echo $row['CI_station_name'];
                 echo "</td>";
 
                 echo "<td>";
-                echo $row['check_out_station'];
+                echo $row['CO_station_name'];
                 echo "</td>";
 
                 echo "<td>";
@@ -178,10 +189,8 @@ $result = mysqli_query($db,'SELECT b.name,b.id,  r.*, v.username AS vendor_name,
                 echo "<td>";
                 echo '
                 <form>
-                        <div class="msg"></div>
                         <input type="text" class="valRow" value="'.$row['rental_id'].'" hidden>
                         <input type="button" value="Delete" class="btnDelete">
-                        <div class="error_msg"></div>
                 </form>
                     ';
                 echo "</td>";
@@ -189,10 +198,17 @@ $result = mysqli_query($db,'SELECT b.name,b.id,  r.*, v.username AS vendor_name,
                 echo "<td>";
                 echo '
                 <form>
-                        <div class="msg"></div>
                         <input type="text" class="valRow" value="'.$row['rental_id'].'" hidden>
                         <input type="button" value="Edit" class="btnEdit" onclick="editBooking(\''.$id.'\')">
-                        <div class="error_msg"></div>
+                </form>
+                    ';
+                echo "</td>";
+
+                echo "<td>";
+                echo '
+                <form>
+                        <input type="text" class="valRow" value="'.$row['rental_id'].'" hidden>
+                        <input type="button" value="Done" class="btnDone">
                 </form>
                     ';
                 echo "</td>";
@@ -221,7 +237,7 @@ $result = mysqli_query($db,'SELECT b.name,b.id,  r.*, v.username AS vendor_name,
             <form class="trip-form">
               <div class="row align-items-center mb-4">
                 <div class="col-md-6">
-                  <h3 class="m-0">Booking Details<span id="bikename"></span></h3>
+                  <h3 class="m-0">Edit Booking Details for Booking Number <span id="BookingNum"></span><span id="row_value"></span></h3>
                 </div>
                 <!-- <div class="col-md-6 text-md-right">
                   <span class="text-primary">32</span> <span>cars available</span></span>
@@ -229,28 +245,55 @@ $result = mysqli_query($db,'SELECT b.name,b.id,  r.*, v.username AS vendor_name,
               </div>
               <div class="row">
                 <div class="form-group col-md-3">
-                  <label for="cf-1">Choose Pick-Up Station</label>
-                  <input type="text" id="cf-1" placeholder="Your pickup address" class="form-control">
-                </div>
-                <div class="form-group col-md-3">
-                  <label for="cf-2">Choose Drop-off Station</label>
-                  <input type="text" id="cf-2" placeholder="Your drop-off address" class="form-control">
-                </div>
-                <div class="form-group col-md-3">
                   <label for="cf-3">Select Check-In Time</label>
-                  <input type="text" id="cf-3" placeholder="Your pickup address" class="form-control datepicker px-3">
+                  <input type="text" id="CI_DT" name="date_field" placeholder="Your Check-In Time" class="form-control px-3">
                 </div>
                 <div class="form-group col-md-3">
                   <label for="cf-4">Select Check-Out Time</label>
-                  <input type="text" id="cf-4" placeholder="Your pickup address" class="form-control datepicker px-3">
+                  <input type="text" id="CO_DT" name="date_field2" placeholder="Your Check-Out Time" class="form-control px-3">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="cf-1">Choose Pick-Up Station</label>
+                  <select class="form-control" id="optVal_CI" >
+                    <option class="form-control" selected="selected"  value='default'>Please Select a Station</option>
+                    <?php
+                    include ("conn.php");
+                    // $result = mysqli_query($db, "SELECT * FROM rental INNER JOIN feedback on rental.feedback_id = feedback.id WHERE rental.is_complete = 1");
+                    $result = mysqli_query($db, "SELECT * FROM station ");
+
+                    while($row = mysqli_fetch_array($result)) {                    	
+                      echo("<option class=\"form-control\" value='".$row['id']."'>".$row['name']."</option>");                      	
+                    }
+                    ?>
+                    <label for="dropdown">Select</label>
+                  </select>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="cf-2">Choose Drop-off Station</label>
+                  <select class="form-control" id="optVal_CO">
+                    <option class="form-control" selected="selected"  value='default'>Please Select a Station</option>
+                    <?php
+                    include ("conn.php");
+                    // $result = mysqli_query($db, "SELECT * FROM rental INNER JOIN feedback on rental.feedback_id = feedback.id WHERE rental.is_complete = 1");
+                    $result = mysqli_query($db, "SELECT * FROM station ");
+
+                    while($row = mysqli_fetch_array($result)) {                    	
+                      echo("<option class=\"form-control\" value='".$row['id']."'>".$row['name']."</option>");
+                    }
+                    ?>
+                    <label for="dropdown">Select</label>
+                  </select>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6">
-                  <input type="submit" value="Update" class="btnUpdate btn btn-primary">
+                  <input type="button" value="Update" id="btnUpdate" class=" btn btn-primary">
                 </div>
+
               </div>
             </form>
+
+
           </div>
         </div>
       </div>
@@ -291,26 +334,53 @@ $result = mysqli_query($db,'SELECT b.name,b.id,  r.*, v.username AS vendor_name,
     <script src="js/main.js"></script>
     <script src="jquery/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="dtsel/dtsel.js"></script>
     <script>
+
+
+// for the new date picker
+	instance = new dtsel.DTS('input[name="date_field"]',  {
+	    direction: 'BOTTOM',
+	    dateFormat: "yyyy-mm-dd",
+	    showTime: true,
+	    timeFormat: "HH:MM:SS"
+	});
+
+	instance = new dtsel.DTS('input[name="date_field2"]',  {
+	    direction: 'BOTTOM',
+	    dateFormat: "yyyy-mm-dd",
+	    showTime: true,
+	    timeFormat: "HH:MM:SS"
+	});
+
 
       function editBooking(id){
 
         console.log(id);
-        $("#check_in_station").val('');
-        $("#check_out_station").val('');
+        $("#optVal_CI").val('default');
+        $("#optVal_CO").val('default');
+
+        $("#CI_DT").val('');
+        $("#CO_DT").val('');
+
         $("#btnUpdate").show();
 
         $("#MoreDetails").show();
-        //  document.getElementById('row_value').innerHTML = val_Row;
         $('#row_value').text(id);
-        // $("#sqltable").load(location.href + " #sqltable");
 
-        
       }
+
+      $(".btnEdit").click(function(){ 
+ 		var tbody = $(this).closest('tbody');
+        var rowNum = $('.rowNum', tbody).val();
+        $('#BookingNum').text(rowNum);
+      });
 
       $("document").ready(function(){
         var bike_state = true;
         $("#MoreDetails").hide();
+        $("#row_value").hide();
+        
         $(".btnSubmit").click(function(){
           var tbody = $(this).closest('tbody');
           var val_Row = $('.valRow', tbody).val()
@@ -337,7 +407,7 @@ $result = mysqli_query($db,'SELECT b.name,b.id,  r.*, v.username AS vendor_name,
         
           $(".btnDelete").click(function(){
             var tbody = $(this).closest('tbody');
-            var val_Row = $('.valRow', tbody).val()
+            var val_Row = $('.valRow', tbody).val();
 
             var result = confirm("Do you want to delete this booking?");
             if (result) {
@@ -356,33 +426,63 @@ $result = mysqli_query($db,'SELECT b.name,b.id,  r.*, v.username AS vendor_name,
                });
             }  
         });
+
+
+         $(".btnDone").click(function(){
+            var tbody = $(this).closest('tbody');
+            var val_Row = $('.valRow', tbody).val();
+
+            var result = confirm("Do you want to mark this booking as complete?");
+            if (result) {
+               $.ajax({
+                url: "process.php",
+                type: "post",
+                data: {
+                  "mark_done" : 1,
+                  "is_complete": 1,
+                  "id" : val_Row,
+                },
+                success: function(response){
+                    alert(response);
+                    /*$("#sqltable").reload();*/
+                    $("#sqltable").load(location.href + " #sqltable");
+                  }
+               });
+            }  
+        }); 
         
 
-
-
           $("#btnUpdate").click(function() {
+          	var allow_update = true;
 
-            var row_value = document.getElementById('row_value').innerHTML;
-            var checkInStation = $("#check_in_station").val();
-            var checkOutStation =$("#check_out_station").val();
+          	var row_value = document.getElementById('row_value').innerHTML;
+			var optVal_CI = $("#optVal_CI").val();
+			var optVal_CO = $("#optVal_CO").val();
+			var CI_DT = $("#CI_DT").val();
+            var CO_DT = $("#CI_DT").val();
+      
+			// var result = confirm("Are you sure you want to save this?");
+   //          if (result) {
+	            $.ajax({
+	              type: "POST",
+	              url: "process.php",
+	              data: {
+	                "save_edit": 1,
+	                "check_in_time": CI_DT,
+	                "check_out_time": CO_DT,
+	                "check_in_station": optVal_CI,
+	                "check_out_station": optVal_CO,
+	                "id": row_value,
+	              },
+	              success: function(respond) {
+	                alert(respond);
+	                $("#MoreDetails").hide();
+	                $("#btnUpdate").hide();
+					$("#sqltable").load(location.href + " #sqltable");
 
-            $.ajax({
-              type: "POST",
-              url: "process.php",
-              data: {
-                "save_edit":1,
-                "check_in_station": checkInStation,
-                "check_out_station": checkOutStation,
-                "id": row_value
-              },
-              success: function(respond) {
-                alert(respond);
-                $("#btnUpdate").hide();
-                $("#check_in_station").val('');
-                $("#check_out_station").val('');
-
-              }
-            });
+	              }
+	            });
+        	// }
           });
         
       });

@@ -116,8 +116,8 @@ include("conn.php");
                   	<option class="form-control" selected="selected"  value='default'>Please Select a Rental</option>
                   	<?php
                   	include ("conn.php");
-                  	// $result = mysqli_query($db, "SELECT * FROM rental INNER JOIN feedback on rental.feedback_id = feedback.id WHERE rental.is_complete = 1");
-                  	$result = mysqli_query($db, "SELECT * FROM rental ");
+                  	$result = mysqli_query($db, "SELECT * FROM rental INNER JOIN feedback on rental.feedback_id = feedback.id WHERE rental.is_complete = 1");
+                  	// $result = mysqli_query($db, "SELECT * FROM rental ");
 
                   	while($row = mysqli_fetch_array($result)) {
                   		echo("<option class=\"form-control\" class=\"optVal\" value='".$row['id']."'>".$row['id']."</option>");
@@ -142,7 +142,7 @@ include("conn.php");
 
               <div class="form-group row">
                 <div class="col-md-12 mr-auto">
-                  <input type="submit" class="btn btn-block btn-primary text-white py-3 px-5" id="btnSubmit" value="Submit Feedback">
+                  <input type="button" class="btn btn-block btn-primary text-white py-3 px-5" id="btnSubmit" value="Submit Feedback">
                 </div>
               </div>
 
@@ -196,12 +196,12 @@ $(".optVal").click(function(){
 	var select = $(this).closest('select');
     var optVal = $('.optVal', select).val();
 
-	alert(.text(optVal));
+	alert(text(optVal));
 });
 
     		var bike_state = true;
     		
-    		$(".btnSubmit").click(function(){
+    		$("#btnSubmit").click(function(){
     			var select = $(this).closest('select');
     			var optVal = $('.optVal', select).val()
 
